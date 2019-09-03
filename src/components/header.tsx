@@ -1,37 +1,30 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import { Navbar, Container } from "react-bootstrap"
+import Image from "./image";
+import styled from "styled-components"
 
 interface Props {
   siteTitle: string;
+  className?: string;
 }
-const Header = ({ siteTitle }: Props) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
+const Header = ({ siteTitle, className }: Props) => (
+  <Navbar bg="dark" variant="dark" className={className} fixed="top">
+    <Container>
+      <Navbar.Brand href="/" className="d-flex align-items-center">
+        <div className="image-container">
+          <Image />
+        </div>
         <Link
           to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
+          className="site-title"
         >
           {siteTitle}
         </Link>
-      </h1>
-    </div>
-  </header>
+      </Navbar.Brand>
+    </Container>
+  </Navbar>
 )
 
 Header.propTypes = {
@@ -42,4 +35,17 @@ Header.defaultProps = {
   siteTitle: ``,
 }
 
-export default Header
+export default styled(Header)`
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  .image-container {
+    width: 60px;
+    margin-right: 10px;
+  }
+  .site-title {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: -0.3rem;
+    text-decoration: none;
+  }
+`

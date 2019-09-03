@@ -1,9 +1,8 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, navigateTo } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import ReactPaginate from "react-paginate";
-// import '../css/index.css'; // add some style if you want!
+import Pagination from "../components/pagination";
 
 interface Props {
   data: any;
@@ -17,7 +16,6 @@ interface Props {
 
 export default function BlogList({ data, pageContext }: Props) {
   const { currentPage, numPages } = pageContext;
-  debugger;
   const { edges: posts } = data.allMarkdownRemark
   return (
     <Layout>
@@ -36,12 +34,8 @@ export default function BlogList({ data, pageContext }: Props) {
               </div>
             )
           })}
-          <ReactPaginate
-            pageCount={numPages}
-            pageRangeDisplayed={5}
-            marginPagesDisplayed={2}
-          />
         </div>
+        <Pagination currentPage={currentPage} pageCount={numPages} onPageClick={page => navigateTo(`blog/${page === 1 ? '' : page}`)}/>
     </Layout>
   )
 }
