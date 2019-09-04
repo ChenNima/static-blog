@@ -1,7 +1,7 @@
 ---
 path: "/hello-world"
 date: 2019-09-02T22:12:09+08:00
-title: "Hello world"
+title: "你好，世界"
 ---
 
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->

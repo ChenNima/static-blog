@@ -13,6 +13,7 @@ import Header from "./header"
 import styled from "styled-components"
 import "./layout.css"
 import "../css/bootstrap.min.css"
+import "../css/open-iconic-bootstrap.scss"
 
 interface Props {
   children: ReactNode;
@@ -50,5 +51,5 @@ Layout.propTypes = {
 }
 
 export default styled(Layout)`
-  margin-top: 130px;
+  margin-top: 150px;
 `

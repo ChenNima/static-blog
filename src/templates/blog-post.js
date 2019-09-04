@@ -1,5 +1,4 @@
 import React from "react"
-import { Helmet } from "react-helmet"
 import { graphql } from "gatsby"
 import styled from "styled-components"
 import Layout from "../components/layout"
@@ -11,7 +10,6 @@ function Template({ data, className }) {
     <Layout>
       <SEO title={post.frontmatter.title}/>
       <div className={`blog-post-container ${className}`}>
-        <Helmet title={`Your Blog Name - ${post.frontmatter.title}`} />
         <div className="blog-post">
           <h1 className="title">{post.frontmatter.title}</h1>
           <hr />

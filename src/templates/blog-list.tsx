@@ -1,11 +1,16 @@
 import React from "react"
-import { Link, graphql, navigateTo } from "gatsby"
+import { graphql, navigateTo } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Pagination from "../components/pagination";
+import Pagination from "../components/pagination"
+import BlogItem from "../components/blog-list/blog-item"
 
 interface Props {
-  data: any;
+  data: {
+    allMarkdownRemark: {
+      edges: {node: Blog}[]
+    }
+  };
   pageContext: {
     currentPage: number;
     limit: number;
@@ -19,23 +24,16 @@ export default function BlogList({ data, pageContext }: Props) {
   const { edges: posts } = data.allMarkdownRemark
   return (
     <Layout>
-      <SEO title="list"/>
+      <SEO title="博客列表"/>
       <div className="blog-posts">
         {posts
-          .filter((post: any)=> post.node.frontmatter.title.length > 0)
-          .map(({ node: post }: { node: any }) => {
-            return (
-              <div className="blog-post-preview" key={post.id}>
-                <h1>
-                  <Link to={post.frontmatter.path}>{post.frontmatter.title}</Link>
-                </h1>
-                <h2>{post.frontmatter.date}</h2>
-                <p>{post.excerpt}</p>
-              </div>
-            )
-          })}
-        </div>
+          .filter((post)=> post.node.frontmatter.title.length > 0)
+          .map(({ node: post }) => <div key={post.id} ><BlogItem blog={post} /></div>)
+        }
+      </div>
+      <div className="d-flex justify-content-center mt-5">
         <Pagination currentPage={currentPage} pageCount={numPages} onPageClick={page => navigateTo(`blog/${page === 1 ? '' : page}`)}/>
+      </div>
     </Layout>
   )
 }
