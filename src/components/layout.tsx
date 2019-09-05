@@ -11,7 +11,6 @@ import { useStaticQuery, graphql } from "gatsby"
 import { Container } from "react-bootstrap"
 import Header from "./header"
 import styled from "styled-components"
-import "./layout.css"
 import "../css/bootstrap.min.css"
 import "../css/open-iconic-bootstrap.scss"
 
@@ -51,5 +50,5 @@ Layout.propTypes = {
 }
 
 export default styled(Layout)`
-  margin-top: 150px;
+  margin-top: 130px;
 `

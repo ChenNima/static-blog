@@ -26,6 +26,10 @@ _Have another more specific idea? You may want to check out our vibrant collecti
     gatsby new my-default-starter https://github.com/gatsbyjs/gatsby-starter-default
     ```
 
+    ```jsx
+    const a = 1;
+    ```
+
 1.  **Start developing.**
 
     Navigate into your new site’s directory and start it up.

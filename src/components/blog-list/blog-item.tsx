@@ -9,18 +9,25 @@ const BlogItem = ({ blog, className }: { blog: Blog } & StyledComponentProps) =>
       <Link to={blog.frontmatter.path} className="title">{blog.frontmatter.title}</Link>
       <span className="angle-brackets">/&gt;</span>
     </h1>
-    <h3>
+    <h4 className="date">
       <span className="oi oi-calendar"/>
       {blog.frontmatter.date}
-    </h3>
-    <p className="excerpt">{blog.excerpt}</p>
+    </h4>
+    <div className="d-flex excerpt-container">
+      <span className="oi oi-double-quote-serif-left"/>
+      <p className="excerpt">{blog.excerpt}</p>
+      <span className="oi oi-double-quote-serif-right align-self-end"/>
+    </div>
   </div>
 )
 
 export default styled(BlogItem)`
-  margin: 30px 0 40px;
+  margin: 30px 0 70px;
   .title {
     text-decoration: none;
+  }
+  .date {
+    text-transform: capitalize;
   }
   .angle-brackets {
     color: #e2e2e2;
@@ -37,16 +44,29 @@ export default styled(BlogItem)`
     font-size: 1.3rem;
     transition: 0.3s;
   }
-  .excerpt {
-    line-height: 2;
-    transition: 0.3s;
+  .excerpt-container {
+    .excerpt {
+      transition: 0.3s;
+      line-height: 2;
+      padding-left: 1rem;
+      margin: 0;
+    }
+    .oi {
+      transition: 0.3s;
+      color: #e2e2e2;
+    }
   }
   &:hover {
     .oi-calendar {
       color: #ff8e8e
     }
-    .excerpt {
-      color: black;
+    .excerpt-container {
+      .excerpt {
+        color: black;
+      }
+      .oi {
+        color: #d38ce4;
+      }
     }
   }
 `;

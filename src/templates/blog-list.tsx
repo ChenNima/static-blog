@@ -1,9 +1,9 @@
 import React from "react"
 import { graphql, navigateTo } from "gatsby"
-import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
 import BlogItem from "../components/blog-list/blog-item"
+import withLayout from "../util/HOC/withLayout";
 
 interface Props {
   data: {
@@ -19,11 +19,11 @@ interface Props {
   }
 }
 
-export default function BlogList({ data, pageContext }: Props) {
+function BlogList({ data, pageContext }: Props) {
   const { currentPage, numPages } = pageContext;
   const { edges: posts } = data.allMarkdownRemark
   return (
-    <Layout>
+    <>
       <SEO title="博客列表"/>
       <div className="blog-posts">
         {posts
@@ -34,12 +34,14 @@ export default function BlogList({ data, pageContext }: Props) {
       <div className="d-flex justify-content-center mt-5">
         <Pagination currentPage={currentPage} pageCount={numPages} onPageClick={page => navigateTo(`blog/${page === 1 ? '' : page}`)}/>
       </div>
-    </Layout>
+    </>
   )
 }
 
+export default withLayout(BlogList);
+
 export const pageQuery = graphql`
-  query IndexQuery($skip: Int!, $limit: Int!) {
+  query ListQuery($skip: Int!, $limit: Int!) {
     allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___date] }
       limit: $limit

@@ -12,28 +12,25 @@ interface Props {
 const Header = ({ siteTitle, className }: Props) => (
   <Navbar bg="dark" variant="dark" className={className} fixed="top">
     <Container>
-      <Navbar.Brand href="/" className="d-flex align-items-center">
+      <Link to="/" className="d-flex align-items-center navbar-brand">
         <div className="image-container">
           <Image />
         </div>
-        <Link
-          to="/"
+        <span
           className="site-title nav-link"
         >
           {siteTitle}
-        </Link>
-      </Navbar.Brand>
+        </span>
+      </Link>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link>
-            <Link
-              to="/blog"
-              className="nav-link blog-link"
-            >
-              博客
-            </Link>
-          </Nav.Link>
+          <Link
+            to="/blog"
+            className="nav-link blog-link nav-link"
+          >
+            博客
+          </Link>
         </Nav>
       </Navbar.Collapse>
     </Container>
@@ -49,8 +46,8 @@ Header.defaultProps = {
 }
 
 export default styled(Header)`
-  padding-top: 18px !important;
-  padding-bottom: 18px !important;
+  padding-top: .5rem !important;
+  padding-bottom: .5rem !important;
   .navbar-brand {
     margin-right: 0;
   }
