@@ -3,11 +3,13 @@ module.exports = {
     title: `茶歇笔记`,
     description: `Blog site by Felix`,
     author: `@gatsbyjs`,
+    siteUrl: `https://chennima.github.io/`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
     `gatsby-plugin-sass`,
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
