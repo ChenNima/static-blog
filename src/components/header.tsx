@@ -1,5 +1,4 @@
 import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
 import { Navbar, Container, Nav } from "react-bootstrap"
 import Image from "./image";
@@ -36,14 +35,6 @@ const Header = ({ siteTitle, className }: Props) => (
     </Container>
   </Navbar>
 )
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
 
 export default styled(Header)`
   padding-top: .5rem !important;
