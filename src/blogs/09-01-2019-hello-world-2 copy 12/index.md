@@ -1,9 +1,8 @@
 ---
-path: "/hello-world2019-09-03T22:12:09+08:00"
+path: "/hello-world2"
 date: 2019-09-03T22:12:09+08:00
 title: "你好，世界"
 ---
-
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
   <a href="https://www.gatsbyjs.org">
@@ -11,7 +10,7 @@ title: "你好，世界"
   </a>
 </p>
 
-使用此默认样板开始您的项目。这个启动器附带了主要的Gatsby配置文件，您可能需要使用React的超快应用程序生成器快速启动和运行。
+Kick off your project with this default boilerplate. This starter ships with the main Gatsby configuration files you might need to get up and running blazing fast with the blazing fast app generator for React.
 
 _Have another more specific idea? You may want to check out our vibrant collection of [official and community-created starters](https://www.gatsbyjs.org/docs/gatsby-starters/)._
 
@@ -26,11 +25,7 @@ _Have another more specific idea? You may want to check out our vibrant collecti
     gatsby new my-default-starter https://github.com/gatsbyjs/gatsby-starter-default
     ```
 
-    ```jsx
-    const a = 1;
-    ```
-
-1.  **Start developing.**
+2.  **Start developing.**
 
     Navigate into your new site’s directory and start it up.
 
@@ -39,7 +34,7 @@ _Have another more specific idea? You may want to check out our vibrant collecti
     gatsby develop
     ```
 
-1.  **Open the source code and start editing!**
+3.  **Open the source code and start editing!**
 
     Your site is now running at `http://localhost:8000`!
 

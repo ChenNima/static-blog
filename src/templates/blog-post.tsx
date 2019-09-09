@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 import styled, { keyframes } from "styled-components"
 import SEO from "../components/seo"
 import withLayout from "../util/HOC/withLayout"
+import Markdown from "../components/blog-post/markdown"
 
 interface Props {
   data: {
@@ -20,7 +21,7 @@ function BlogSIV({ data, className }: Props & StyledComponentProps) {
           <h1 className="title">{post.frontmatter.title}</h1>
           <hr className="divider"/>
           <p className="date">{post.frontmatter.date}</p>
-          <article
+          <Markdown
             className="blog-post-content"
             dangerouslySetInnerHTML={{ __html: post.html }}
           />
