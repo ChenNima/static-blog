@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
 export default styled.article`
+  color: #6d757b;
+  font-size: 1rem;
   h1 {
     border-bottom: 1px solid #aaaaaa;
     margin: 50px 0 30px;
@@ -11,5 +13,16 @@ export default styled.article`
   }
   h3 {
     margin-top: 30px;
+  }
+  pre[class*=language-] {
+    background: #0a2e56;
+  }
+
+  pre>code[class*="language-"] {
+    color: #aec5ce;
+  }
+
+  * :not(pre) > code[class*="language-"] {
+    background: #e7f4ff;
   }
 `;

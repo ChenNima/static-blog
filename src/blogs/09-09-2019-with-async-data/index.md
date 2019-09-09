@@ -190,7 +190,7 @@ function withAsyncData<ChildPropsType extends { data?: any }>(Child: ComponentTy
     ...
   }
 ```
-- 使用泛型`<ChildPropsType extends { data?: any }>`已经自动类型判断来将要求子组件必须接受data属性
+- 使用泛型`<ChildPropsType extends { data?: any }>`以及自动类型判断来将要求子组件必须接受`data`属性
 - `Omit<ChildPropsType, 'data'>`将data type从子组件的props中删除。在较新的typescript中`Omit`帮助类型的定义在`node_modules/typescript/lib/lib.es5.d.ts`中。如果typescript版本较旧没有该帮助类型，也可以自行polyfill：
 ```jsx
 declare type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
