@@ -6,7 +6,7 @@ title: "在React中将异步请求抽象为高阶组件(Typescript)"
 
 
 在React中，无论是否使用了Redux或其他状态管理框架，都无法避免在组件中处理异步请求。在不使用`React Hooks`的情况下，其典型的流程为：
-- 在`componentDidMont`中发起异步请求
+- 在`componentDidMount`中发起异步请求
 - 调用`setState`在state中维护请求的loading状态，并根据此状态渲染加载动画
 - 在异步请求resolve的时候调用`setState`将数据放到state中，并将loading状态置为false
 - 如果异步请求存在异常，则需要处理异常并渲染对应的异常状态
