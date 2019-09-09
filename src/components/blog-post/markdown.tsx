@@ -24,4 +24,9 @@ export default styled.article`
     white-space: pre-wrap;
     word-break: break-word;
   }
+
+  a {
+    color: #2360bb;
+    font-weight: bolder;
+  }
 `;
