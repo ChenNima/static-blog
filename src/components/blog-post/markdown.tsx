@@ -9,20 +9,17 @@ export default styled.article`
   }
   strong {
     font-weight: bold;
-    color: #5a5a5a;
+    /* color: #5a5a5a; */
   }
   h3 {
     margin-top: 30px;
   }
   pre[class*=language-] {
-    background: #0a2e56;
-  }
-
-  pre>code[class*="language-"] {
-    color: #aec5ce;
+    background: #08223e;
   }
 
   * :not(pre) > code[class*="language-"] {
-    background: #e7f4ff;
+    background: #dcebfb;
+    color: #386388;
   }
 `;
