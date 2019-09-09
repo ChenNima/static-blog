@@ -15,7 +15,7 @@ function BlogSIV({ data, className }: Props & StyledComponentProps) {
   const { markdownRemark: post } = data // data.markdownRemark holds our post data
   return (
     <>
-      <SEO title={post.frontmatter.title}/>
+      <SEO title={post.frontmatter.title} description={post.excerpt}/>
       <div className={`blog-post-container ${className}`}>
         <div className="blog-post">
           <h1 className="title">{post.frontmatter.title}</h1>
@@ -69,6 +69,7 @@ export const pageQuery = graphql`
   query BlogPostByPath($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
+      excerpt(pruneLength: 250)
       frontmatter {
         date(formatString: "MMMM DD, YYYY")
         path

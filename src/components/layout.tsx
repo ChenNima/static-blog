@@ -11,8 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import { Container } from "react-bootstrap"
 import Header from "./header"
 import styled from "styled-components"
-import "../css/bootstrap.min.css"
-import "../css/open-iconic-bootstrap.scss"
+import Footer from "./footer"
 
 interface Props {
   children: ReactNode;
@@ -35,12 +34,8 @@ const Layout = ({ children, className }: Props) => {
       <Header siteTitle={data.site.siteMetadata.title} />
       <Container className={className}>
         <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
       </Container>
+      <Footer/>
     </>
   )
 }
@@ -50,5 +45,6 @@ Layout.propTypes = {
 }
 
 export default styled(Layout)`
-  margin-top: 130px;
+  padding-top: 130px;
+  min-height: calc(100vh - 81px);
 `

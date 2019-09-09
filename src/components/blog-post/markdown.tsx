@@ -21,5 +21,7 @@ export default styled.article`
   * :not(pre) > code[class*="language-"] {
     background: #dcebfb;
     color: #386388;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 `;

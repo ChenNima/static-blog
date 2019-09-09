@@ -8,3 +8,5 @@
 // require("prismjs/themes/prism-solarizedlight.css")
 require("prism-themes/themes/prism-darcula.css");
 require("prismjs/plugins/line-numbers/prism-line-numbers.css");
+require(`${__dirname}/src/css/bootstrap.min.css`)
+require(`${__dirname}/src/css/open-iconic-bootstrap.scss`)
