@@ -21,8 +21,8 @@ const Footer = ({className}: StyledComponentProps) => (
       {` `}
       Email:
       {` `}
-      <a href="mailto:fennu636@sina.com">
-        fennu636@sina.com
+      <a href="mailto:fennu637@sina.com">
+        fennu637@sina.com
       </a>
     </span>
   </Container>
