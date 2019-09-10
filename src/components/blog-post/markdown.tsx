@@ -3,6 +3,9 @@ import styled from "styled-components"
 export default styled.article`
   color: #6d757b;
   font-size: 1rem;
+  h1, h2, h3, h4, h5, h6 {
+    text-transform: none;
+  }
   h1 {
     border-bottom: 1px solid #aaaaaa;
     margin: 50px 0 30px;

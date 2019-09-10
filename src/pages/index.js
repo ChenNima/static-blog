@@ -12,6 +12,7 @@ const IndexPage = () => {
         sort: { order: DESC, fields: [frontmatter___date] }
         limit: 10
         skip: 0
+        filter: {frontmatter: {type: {eq: "blog"}}}
       ) {
         edges {
           node {

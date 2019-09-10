@@ -2,6 +2,7 @@
 path: "/with-async-data"
 date: 2019-09-09T10:23:40+08:00
 title: "在React中将异步请求抽象为高阶组件(Typescript)"
+type: "blog"
 ---
 
 

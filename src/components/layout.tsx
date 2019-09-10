@@ -47,4 +47,5 @@ Layout.propTypes = {
 export default styled(Layout)`
   padding-top: 130px;
   min-height: calc(100vh - 81px);
+  position: relative;
 `

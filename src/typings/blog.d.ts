@@ -4,6 +4,8 @@ declare interface Blog {
     path: string;
     title: string;
     date: string;
+    lang: string;
+    type: string;
   }
   excerpt: string;
   html: string;

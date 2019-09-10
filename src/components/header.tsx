@@ -31,6 +31,14 @@ const Header = ({ siteTitle, className }: Props) => (
             博客
           </Link>
         </Nav>
+        <Nav className="mr-auto">
+          <Link
+            to="/resume"
+            className="nav-link blog-link nav-link"
+          >
+            简历
+          </Link>
+        </Nav>
       </Navbar.Collapse>
     </Container>
   </Navbar>
@@ -56,5 +64,8 @@ export default styled(Header)`
   .nav-link {
     color: white;
     text-decoration: none;
+  }
+  .navbar-nav {
+    margin: 0 !important;
   }
 `

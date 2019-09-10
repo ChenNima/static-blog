@@ -2,6 +2,7 @@
 path: "/hello-world2"
 date: 2019-09-03T22:12:09+08:00
 title: "你好，世界"
+type: "blog"
 ---
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
