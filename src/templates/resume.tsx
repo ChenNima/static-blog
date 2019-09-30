@@ -15,11 +15,11 @@ function ResumeSIV({ data, className }: Props & StyledComponentProps) {
   const { markdownRemark: post } = data
   const resumeLink = post.frontmatter.lang === "en" ?
   {
-    text: "Chinese version>>",
+    text: "中文版版>>",
     path: "/resume"
   } :
   {
-    text: "英文版>>",
+    text: "English version>>",
     path: "/resume-en"
   }
   return (

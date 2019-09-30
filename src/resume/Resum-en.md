@@ -18,15 +18,22 @@ lang: "en"
 # Working Experience
 
 ## SAP Labs China （ 2016.10 ~  ）
-
-### Devops/SAP Jam Collaboration （ 2019.2 ~  ）
+Web development(Frontend/backend) and Devops
+### Devops/SAP Jam Collaboration （ 2018.8 ~  ）
 SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend. My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the Devops Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
+#### Project Flota
+Project Flota is submitted and leaded by me during my Devops work. The purpose of the project is decoupling the massive monolithic Ruby on Rails service into several micro-services to improve the performance and maintainability. The micro-services are based on `Golang/Gin` and communicate with each other via `HTTP/gRPC`.
 
 ### Web Developer/SAP Jam Collaboration （ 2017.10 ~  ）
-I'm also focus on frontend development. Jam is a complicated application using `React`，`BackboneJS` and `Rails ERB` template rendering as frontend solution, and `Webpack`/`Gulp`/`Rails assets pipeline` as bundling tool. At early stage, my job was creating frontend components. But my major job is organizing code architecture, code reviewing, code slitting/decoupling and solving hard problems. I created an abstract layer for combine `BackboneJS` and `React` components organically, implemented division of new and old code. Migrate new features' development to using `React`/`Typescript`/`Styled-Component` tech-stack while not affect old code and feature.
+Both frontend and backend(`Ruby/NodeJS`) development. Jam is a complicated application using `React`，`BackboneJS` and `Rails ERB` template rendering as frontend solution, and `Webpack`/`Gulp`/`Rails assets pipeline` as bundling tool. At early stage, my job was creating frontend components. But my major job is organizing code architecture, code reviewing, code slitting/decoupling and solving hard problems. I created an abstract layer for combine `BackboneJS` and `React` components organically, implemented division of new and old code. Migrate new features' development to using `React`/`Typescript`/`Styled-Component` tech-stack while not affect old code and feature.
 
+Implement micro-services based on `NodeJS`, including `server-side-rendering` service for React components and pre-rendering service for `SEO`.
 ### Frontend Developer/SAP Jam Community （ 2016.10 ~  2017.10）
 SAP Jam Community is a social platform based on `EmberJS`/`Vue` and `Ruby on rails`. During this period of job, my major job was frontend developing. Other then creating `EmberJS` component, I also wrote a front-back-end-separated management tool using `Vue`.
+## CareerBuilder China （ 2016.4 ~  2016.10）
+
+### Intern Web developer
+Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
 
 # Skill
 
@@ -35,6 +42,6 @@ SAP Jam Community is a social platform based on `EmberJS`/`Vue` and `Ruby on rai
 - Web framework: React/Vue
 
 ### Know about
-- Web: NodeJS/Ruby on Rails/GraphQL
+- Web: NodeJS/Ruby on Rails/GraphQL/Golang/SEO
 - Devops: Docker/Kubernetes/Terraform/Jenkins
-- K8S related: Istio/EKF/Helm
+- K8S related: Istio/EFK/Helm
