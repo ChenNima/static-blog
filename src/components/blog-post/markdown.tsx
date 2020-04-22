@@ -14,6 +14,9 @@ export default styled.article`
     font-weight: bold;
     /* color: #5a5a5a; */
   }
+  h2 {
+    margin-top: 30px;
+  }
   h3 {
     margin-top: 30px;
   }
