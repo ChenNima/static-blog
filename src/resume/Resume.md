@@ -20,7 +20,7 @@ lang: "zh"
 ## SAP Labs China （ 2016年10月 ~  ）
 Web应用(前后端)开发以及Devops。
 ### Devops/SAP Jam Collaboration （ 2018年8月 ~  ）
-SAP Jam Collaboration(以下简称Jam)是一个基于`Ruby on Rails`后台/`React`，`BackboneJS`为前端的团队协作工具，加入Devops团队后主要负责将项目迁移至`Kubernetes`，并部署在AWS。主要工作包括编写`Terraform`用以管理集群基础设施；将应用的各个微服务拆分为独立的`Helm` Charts并分别部署；部署`Istio` service mesh并实现金丝雀部署，流量监控等功能。
+SAP Jam Collaboration(以下简称Jam)是一个基于`Ruby on Rails`后台/`React`，`BackboneJS`为前端的团队协作工具，加入Devops团队后主要负责将项目迁移至`Kubernetes`，并部署在AWS。主要工作包括编写`Terraform`用以管理集群基础设施；将应用的各个微服务拆分为独立的`Helm` Charts并分别部署；使用`ArgoCD`实现`GitOps`流程；部署`Istio` service mesh并实现金丝雀部署，流量监控等功能。
 #### Project Flota
 Project Flota是在本人在devops工作中提出并主导的项目，其目的是将庞杂的单一Ruby on Rails服务拆分为数个微服务以降低代码耦合度，提高服务性能和可维护性。微服务模块主要使用`Golang/Gin`进行开发，相互通过`HTTP/gRPC`沟通。
 
@@ -42,9 +42,10 @@ SAP Jam Community是一款基于`EmberJS`/`Vue`和`Ruby on rails`的社交平台
 
 ### 熟悉
 - Web开发: Javascript `Typescript`/HTML/CSS `Styled-Component`/Webpack
+- Devops: Docker/Kubernetes/Terraform/iptables
 - Web框架: React/Vue
 
 ### 了解
-- Web开发: NodeJS/Ruby on Rails/GraphQL/Golang/SEO
-- Devops: Docker/Kubernetes/Terraform/Jenkins
-- K8S相关: Istio/EFK/Helm
+- Web开发: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
+- Devops: Jenkins `Groovy`
+- K8S相关: Istio/EFK/Helm/ArgoCD

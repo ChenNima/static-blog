@@ -20,7 +20,7 @@ lang: "en"
 ## SAP Labs China （ 2016.10 ~  ）
 Web development(Frontend/backend) and Devops
 ### Devops/SAP Jam Collaboration （ 2018.8 ~  ）
-SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend. My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the Devops Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
+SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend. My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the Devops Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Utilizing `ArgoCD` for implementing `GitOps` workflow; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
 #### Project Flota
 Project Flota is submitted and leaded by me during my Devops work. The purpose of the project is decoupling the massive monolithic Ruby on Rails service into several micro-services to improve the performance and maintainability. The micro-services are based on `Golang/Gin` and communicate with each other via `HTTP/gRPC`.
 
@@ -39,9 +39,10 @@ Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
 
 ### Familiar with
 - Web developing: Javascript `Typescript`/HTML/CSS `Styled-Component`/Webpack
+- Devops: Docker/Kubernetes/Terraform/iptables
 - Web framework: React/Vue
 
 ### Know about
-- Web: NodeJS/Ruby on Rails/GraphQL/Golang/SEO
-- Devops: Docker/Kubernetes/Terraform/Jenkins
-- K8S related: Istio/EFK/Helm
+- Web: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
+- Devops: Jenkins `Groovy`
+- K8S related: Istio/EFK/Helm/ArgoCD
