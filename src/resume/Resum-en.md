@@ -18,19 +18,23 @@ lang: "en"
 # Working Experience
 
 ## SAP Labs China （ 2016.10 ~  ）
-Web development(Frontend/backend) and Devops
-### Devops/SAP Jam Collaboration （ 2018.8 ~  ）
-SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend. My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the Devops Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Utilizing `ArgoCD` for implementing `GitOps` workflow; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
-#### Project Flota
-Project Flota is submitted and leaded by me during my Devops work. The purpose of the project is decoupling the massive monolithic Ruby on Rails service into several micro-services to improve the performance and maintainability. The micro-services are based on `Golang/Gin` and communicate with each other via `HTTP/gRPC`.
+Web development(Frontend/backend) and DevOps
 
-### Web Developer/SAP Jam Collaboration （ 2017.10 ~  ）
+SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend.
+### Senior DevOps/SAP Jam Collaboration （ 2020.3 ~  ）
+Lead the DevOps team evolving the architecture. Including introducing `Consul` which works with `HAproxy` we have to implement dynamic service registration/discovering and `Service Mesh`; introducing `Fluentd` and `Prometheus` for refactoring original logging system and monitoring system. Implemented micro service architecture similar with Kubernetes in legacy data centers which do not have the infrastructure for Kubernetes.
+### DevOps/SAP Jam Collaboration （ 2019.3 ~ 2020.3 ）
+My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the DevOps Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Utilizing `ArgoCD` for implementing `GitOps` workflow; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
+#### Project Flota
+Project Flota is submitted and leaded by me during my DevOps work. The purpose of the project is decoupling the massive monolithic Ruby on Rails service into several micro-services to improve the performance and maintainability. The micro-services are based on `Golang/Gin` and communicate with each other via `HTTP/gRPC`.
+
+### Web Developer/SAP Jam Collaboration （ 2017.10 ~ 2019.3 ）
 Both frontend and backend(`Ruby/NodeJS`) development. Jam is a complicated application using `React`，`BackboneJS` and `Rails ERB` template rendering as frontend solution, and `Webpack`/`Gulp`/`Rails assets pipeline` as bundling tool. At early stage, my job was creating frontend components. But my major job is organizing code architecture, code reviewing, code slitting/decoupling and solving hard problems. I created an abstract layer for combine `BackboneJS` and `React` components organically, implemented division of new and old code. Migrate new features' development to using `React`/`Typescript`/`Styled-Component` tech-stack while not affect old code and feature.
 
 Implement micro-services based on `NodeJS`, including `server-side-rendering` service for React components and pre-rendering service for `SEO`.
-### Frontend Developer/SAP Jam Community （ 2016.10 ~  2017.10）
+### Frontend Developer/SAP Jam Community （ 2016.10 ~  2017.10 ）
 SAP Jam Community is a social platform based on `EmberJS`/`Vue` and `Ruby on rails`. During this period of job, my major job was frontend developing. Other then creating `EmberJS` component, I also wrote a front-back-end-separated management tool using `Vue`.
-## CareerBuilder China （ 2016.4 ~  2016.10）
+## CareerBuilder China （ 2016.4 ~  2016.10 ）
 
 ### Intern Web developer
 Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
@@ -39,10 +43,10 @@ Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
 
 ### Familiar with
 - Web developing: Javascript `Typescript`/HTML/CSS `Styled-Component`/Webpack
-- Devops: Docker/Kubernetes/Terraform/iptables
+- DevOps: Docker/Kubernetes/Terraform/iptables
 - Web framework: React/Vue
 
 ### Know about
 - Web: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
-- Devops: Jenkins `Groovy`
+- DevOps: Jenkins `Groovy`/Consul/HAproxy/Service Mesh
 - K8S related: Istio/EFK/Helm/ArgoCD

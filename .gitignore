@@ -65,5 +65,3 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 package-lock.json
-
-src/resume/Resum*.pdf
