@@ -29,10 +29,16 @@ export default styled.article`
     color: #386388;
     white-space: pre-wrap;
     word-break: break-word;
+    margin: 0 5px;
   }
 
   a {
     color: #2360bb;
     font-weight: bolder;
+  }
+
+  p, li {
+    line-height: 1.8;
+    font-size: 1.2rem
   }
 `;

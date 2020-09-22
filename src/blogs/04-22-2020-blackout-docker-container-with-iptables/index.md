@@ -7,7 +7,7 @@ type: "blog"
 当我们把应用部署在`Kubernetes`集群中的时候可以很方便地使用例如[Istio](https://istio.io/)的`Service Mesh`工具控制集群中的流量，例如熔断，灰度部署，蓝绿部署等功能。虽然当我们的集群部署在docker容器中但又没有Kubernetes环境时`Envoy`和`Istio`等工具仍然可以用来帮助控制集群流量，但是简单的服务熔断/下线等操作可以借助`Iptables`工具快速地实现，而不用侵入应用代码或者部署额外的架构。
 
 # TL;DR
-假设我们部署一个简单的docker容器服务[Memcahced](https://hub.docker.com/_/memcached), 将服务暴露的`11211`端口转发至本地的`11211`端口
+假设我们部署一个简单的docker容器服务[Memcahced](https://hub.docker.com/_/memcached), 将服务暴露的`11211`端口转发至本地的`11211`端口
 ```bash
 docker run memcached:latest -n memcached -p 11211:11211
 ```
