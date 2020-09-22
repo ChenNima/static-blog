@@ -34,5 +34,6 @@ jobs:
           npm i
           git config --global user.email "fennu637@sina.com"
           git config --global user.name "Felix Chen"
-          gatsby build && cd ./public && git add . && git commit -m "update" 
+          gatsby build && cd ./public && git add . && git commit -m "update"
+          echo ${{ secrets.API_TOKEN_GITHUB }}
           git push --force https://ChenNima:${{ secrets.API_TOKEN_GITHUB }}@github.com/ChenNima/ChenNima.github.io.git HEAD:master
