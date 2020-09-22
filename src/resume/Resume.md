@@ -53,5 +53,5 @@ SAP Jam Community是一款基于`EmberJS`/`Vue`和`Ruby on rails`的社交平台
 
 ### 了解
 - Web开发: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
-- DevOps: Jenkins `Groovy`/Service Mesh/AWS
+- DevOps: Jenkins `Groovy`/Service Mesh/AWS/Git Ops
 - Kubernetes相关: Istio/EFK/Helm/ArgoCD

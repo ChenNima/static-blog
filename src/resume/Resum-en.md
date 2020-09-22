@@ -50,5 +50,5 @@ Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
 
 ### Know about
 - Web: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
-- DevOps: Jenkins `Groovy`/Service Mesh/AWS
+- DevOps: Jenkins `Groovy`/Service Mesh/AWS/Git Ops
 - K8S related: Istio/EFK/Helm/ArgoCD
