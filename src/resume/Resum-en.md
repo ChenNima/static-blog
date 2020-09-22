@@ -23,6 +23,8 @@ Web development(Frontend/backend) and DevOps
 SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend.
 ### Senior DevOps/SAP Jam Collaboration （ 2020.3 ~  ）
 Lead the DevOps team evolving the architecture. Including introducing `Consul` which works with `HAproxy` we have to implement dynamic service registration/discovering and `Service Mesh`; introducing `Fluentd` and `Prometheus` for refactoring original logging system and monitoring system. Implemented micro service architecture similar with Kubernetes in legacy data centers which do not have the infrastructure for Kubernetes.
+
+Work with intrernational teams. Achieved around-the-clock support of DevOps topics across multiple timezone.
 ### DevOps/SAP Jam Collaboration （ 2019.3 ~ 2020.3 ）
 My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the DevOps Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Utilizing `ArgoCD` for implementing `GitOps` workflow; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
 #### Project Flota
@@ -43,10 +45,10 @@ Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
 
 ### Familiar with
 - Web developing: Javascript `Typescript`/HTML/CSS `Styled-Component`/Webpack
-- DevOps: Docker/Kubernetes/Terraform/iptables
+- DevOps: Docker/Kubernetes/Terraform/iptables/Consul/HAproxy
 - Web framework: React/Vue
 
 ### Know about
 - Web: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
-- DevOps: Jenkins `Groovy`/Consul/HAproxy/Service Mesh
+- DevOps: Jenkins `Groovy`/Service Mesh/AWS
 - K8S related: Istio/EFK/Helm/ArgoCD

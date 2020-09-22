@@ -23,6 +23,8 @@ Web应用(前后端)开发以及DevOps。
 SAP Jam Collaboration(以下简称Jam)是一个基于`Ruby on Rails`后台/`React`，`BackboneJS`为前端的团队协作工具
 ### Senior DevOps/SAP Jam Collaboration （ 2020年3月 ~  ）
 带领团队推动架构演进，包括引入`Consul`与原有的`HAproxy`配合实现动态服务注册/发现和`Service Mesh`；引入`Fluentd`与`Prometheus`改造原有的日志系统与监控系统。在传统数据中心缺乏Kubernetes基础设施支持的情况下实现了与Kubernetes较为接近的微服务架构。
+
+与跨国团队合作，实现多个时区不间断地共同支持DevOps工作
 ### DevOps/SAP Jam Collaboration （ 2019年3月 ~ 2020年3月 ）
 加入DevOps团队后主要负责将项目迁移至`Kubernetes`，并部署在AWS。主要工作包括编写`Terraform`用以管理集群基础设施；将应用的各个微服务拆分为独立的`Helm` Charts并分别部署；使用`ArgoCD`实现`GitOps`流程；部署`Istio` Service Mesh并实现金丝雀部署，流量监控等功能。
 #### Project Flota
@@ -46,10 +48,10 @@ SAP Jam Community是一款基于`EmberJS`/`Vue`和`Ruby on rails`的社交平台
 
 ### 熟悉
 - Web开发: Javascript `Typescript`/HTML/CSS `Styled-Component`/Webpack
-- DevOps: Docker/Kubernetes/Terraform/iptables
+- DevOps: Docker/Kubernetes/Terraform/iptables/Consul/HAproxy
 - Web框架: React/Vue
 
 ### 了解
 - Web开发: NodeJS/Ruby on Rails/GraphQL/Golang/SEO/Mysql
-- DevOps: Jenkins `Groovy`/Consul/HAproxy/Service Mesh
+- DevOps: Jenkins `Groovy`/Service Mesh/AWS
 - Kubernetes相关: Istio/EFK/Helm/ArgoCD
