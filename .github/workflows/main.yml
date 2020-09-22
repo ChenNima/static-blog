@@ -32,4 +32,6 @@ jobs:
         run: |
           cd  $GITHUB_WORKSPACE
           npm i
+          git config --global user.email "fennu637@sina.com"
+          git config --global user.name "Felix Chen"
           npm run deploy
