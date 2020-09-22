@@ -34,4 +34,12 @@ jobs:
           npm i
           git config --global user.email "fennu637@sina.com"
           git config --global user.name "Felix Chen"
-          npm run deploy
+          gatsby build && cd ./public && git add . && git commit -m "update" 
+          cd $GITHUB_WORKSPACE
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.API_TOKEN_GITHUB }}
+          force: true
+          directory: './public'
+          repository: 'ChenNima/ChenNima.github.io'
