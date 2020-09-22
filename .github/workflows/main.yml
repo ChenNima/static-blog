@@ -35,11 +35,4 @@ jobs:
           git config --global user.email "fennu637@sina.com"
           git config --global user.name "Felix Chen"
           gatsby build && cd ./public && git add . && git commit -m "update" 
-          cd $GITHUB_WORKSPACE
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.API_TOKEN_GITHUB }}
-          force: true
-          directory: './public'
-          repository: 'ChenNima/ChenNima.github.io'
+          git push --force https://ChenNima:${{ secrets.API_TOKEN_GITHUB }}@github.com/ChenNima/ChenNima.github.io.git HEAD:master
