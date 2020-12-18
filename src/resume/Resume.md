@@ -30,7 +30,7 @@ SAP Jam Collaboration(以下简称Jam)是一个基于`Ruby on Rails`后台/`Reac
 #### Project Flota
 Project Flota是在本人在DevOps工作中提出并主导的项目，其目的是将庞杂的单一Ruby on Rails服务拆分为数个微服务以降低代码耦合度，提高服务性能和可维护性。微服务模块主要使用`Golang/Gin`进行开发，相互通过`HTTP/gRPC`沟通。
 
-### Web Developer/SAP Jam Collaboration （ 2017年10月 ~ 2019年3月 ）
+### Full Stack Developer/SAP Jam Collaboration （ 2017年10月 ~ 2019年3月 ）
 包括前端以及后端（`Ruby/NodeJS`）开发。Jam是一个汇聚`React`，`BackboneJS`以及`Rails ERB`模板渲染等前端技术的复杂应用，打包工具也使用了`Webpack`/`Gulp`/`Rails assets pipeline`等。除了前期的工作为编写组件外，后期主要负责组织代码架构，代码审查，模块切分和解耦，解决疑难问题等。编写了抽象层将`BackboneJS`和`React`有机地结合在一起，实现了新老代码的分隔，不影响老代码的情况下基本实现了新功能向`React`/`Typescript`/`Styled-Component`迁移的工作。
 
 编写基于NodeJS的微服务，包括实现React组件的`服务端渲染`服务以及基于`Puppeteer`的`SEO`预渲染服务。

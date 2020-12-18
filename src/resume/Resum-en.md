@@ -30,7 +30,7 @@ My major job is migrating the whole project to `Kubernetes` and deploy on AWS af
 #### Project Flota
 Project Flota is submitted and leaded by me during my DevOps work. The purpose of the project is decoupling the massive monolithic Ruby on Rails service into several micro-services to improve the performance and maintainability. The micro-services are based on `Golang/Gin` and communicate with each other via `HTTP/gRPC`.
 
-### Web Developer/SAP Jam Collaboration （ 2017.10 ~ 2019.3 ）
+### Full Stack Developer/SAP Jam Collaboration （ 2017.10 ~ 2019.3 ）
 Both frontend and backend(`Ruby/NodeJS`) development. Jam is a complicated application using `React`，`BackboneJS` and `Rails ERB` template rendering as frontend solution, and `Webpack`/`Gulp`/`Rails assets pipeline` as bundling tool. At early stage, my job was creating frontend components. But my major job is organizing code architecture, code reviewing, code slitting/decoupling and solving hard problems. I created an abstract layer for combine `BackboneJS` and `React` components organically, implemented division of new and old code. Migrate new features' development to using `React`/`Typescript`/`Styled-Component` tech-stack while not affect old code and feature.
 
 Implement micro-services based on `NodeJS`, including `server-side-rendering` service for React components and pre-rendering service for `SEO`.
