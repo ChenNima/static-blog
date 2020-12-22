@@ -25,15 +25,15 @@ export default styled.article`
   }
 
   * :not(pre) > code[class*="language-"] {
-    background: #dcebfb;
-    color: #386388;
+    background: #F2F5EA;
+    color: #F28482;
     white-space: pre-wrap;
     word-break: break-word;
     margin: 0 5px;
   }
 
   a {
-    color: #2360bb;
+    color: #E75A7C;
     font-weight: bolder;
   }
 

@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `茶歇笔记`,
     description: `Blog site by Felix`,
-    author: `@gatsbyjs`,
+    author: `@FelixChen`,
     siteUrl: `https://chennima.github.io/`,
   },
   plugins: [
@@ -42,7 +42,16 @@ module.exports = {
       options: {
         plugins: [
           {
-            resolve: `gatsby-remark-images`
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 700,
+            },
+          },
+          {
+            resolve: "gatsby-remark-external-links",
+            options: {
+              target: "_blank",
+            }
           },
           {
             resolve: `gatsby-remark-prismjs`,

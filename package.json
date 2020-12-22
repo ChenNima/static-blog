@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "tee-break-blog",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A blog by Felix",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Felix Chen <fennu637@sina.com>",
   "dependencies": {
     "@types/node": "14.14.14",
     "@types/react": "17.0.0",
@@ -23,6 +23,7 @@
     "gatsby-plugin-sitemap": "2.9.0",
     "gatsby-plugin-styled-components": "3.7.0",
     "gatsby-plugin-typescript": "2.9.0",
+    "gatsby-remark-external-links": "0.0.4",
     "gatsby-remark-images": "3.8.0",
     "gatsby-remark-prismjs": "3.10.0",
     "gatsby-source-filesystem": "2.8.0",

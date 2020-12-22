@@ -1,0 +1,20 @@
+@media (min-width: 1200px) {
+  .container {
+      max-width:900px
+  }
+}
+
+::selection {
+  background:#F7EDE2;
+  color:#2C363F;
+}
+
+::-moz-selection {
+  background:#F7EDE2;
+  color:#2C363F;
+}
+
+::-webkit-selection {
+  background:#F7EDE2;
+  color:#2C363F;
+}

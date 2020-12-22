@@ -1,7 +1,7 @@
 ---
-path: "/aws-vpc-internet-gatway"
+path: "/aws-vpc-internet-gateway"
 date: 2020-12-18T11:12:03+08:00
-title: "从零搭建AWS网络(一): VPC与Internet Gatway"
+title: "从零搭建AWS网络(一): VPC与Internet Gateway"
 type: "blog"
 ---
 
@@ -9,7 +9,7 @@ AWS([Amazon Web Services](https://aws.amazon.com/))是由亚马逊公司所创�
 
 今天，我们就一起从零搭建一个完整的AWS网络架构并用它来支撑我们的服务，在接下来的几篇文章里，你将会看到我们一步一步地搭建出这样的一个结构：
 
-![arch](./arch.jpg)
+![arch](./arch.png)
 **<center>图0-1 示例AWS网络结构</center>**
 
 其中包括了：
@@ -45,7 +45,9 @@ VPC([Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/))字面意思是�
 
 这里可以看到这个默认的VPC已经配置好了CIDR block, DHCP, Route Table 和 ACL。我们来看看这些配置是做什么的：
 - CIDR
-前面提到了，在VPC内部可以在一定IP范围内创建子网以及其他一系列网络设施，这个“一定IP范围”就是指代CIDR包含的范围了。[CIDR](https://zh.wikipedia.org/wiki/%E6%97%A0%E7%B1%BB%E5%88%AB%E5%9F%9F%E9%97%B4%E8%B7%AF%E7%94%B1)(Classless Inter-Domain Routing)即无类别域间路由, 主要是依托于可变长子网掩码(VLSM)实现的动态划分主机和子网，用来替代已经被弃用的[分类网络](https://zh.wikipedia.org/wiki/%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C)。以这里的`172.31.0.0/16`为例, CIDR主要由两部分组成，斜杠前面的十进制IP地址和斜杠后面的前缀长度。该前缀长度`16`表示前半段的IP地址中，`前16位二进制为网络号，而其余位是主机号`。我们将IP地址转换为二进制得到`10101100.00011111.00000000.00000000`, 前16位正好匹配IP地址的前两段，所以在这个CIDR块中可以分配的地址为`172.31.0.0~172.31.255.255`。需要注意的是这里的CIDR网络范围是`私有的ip地址`而不是公网ip。
+前面提到了，在VPC内部可以在一定IP范围内创建子网以及其他一系列网络设施，这个“一定IP范围”就是指代CIDR包含的范围了。[CIDR](https://zh.wikipedia.org/wiki/%E6%97%A0%E7%B1%BB%E5%88%AB%E5%9F%9F%E9%97%B4%E8%B7%AF%E7%94%B1)(Classless Inter-Domain Routing)即无类别域间路由, 主要是依托于可变长子网掩码(VLSM)实现的动态划分主机和子网，用来替代已经被弃用的[分类网络](https://zh.wikipedia.org/wiki/%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C)。如图1-3，以这里的`172.31.0.0/16`为例, CIDR主要由两部分组成，斜杠前面的十进制IP地址和斜杠后面的前缀长度。该前缀长度`16`表示前半段的IP地址中，`前16位二进制为网络号，而其余位是主机号`。我们将IP地址转换为二进制得到`10101100.00011111.00000000.00000000`, 前16位正好匹配IP地址的前两段，所以在这个CIDR块中可以分配的地址为`172.31.0.0~172.31.255.255`。而斜杠后表示前N位为网络号的数字也不一定是0，8，16，24或者32，也可以是0~32的任意整数。需要注意的是这里的CIDR网络范围是`私有的ip地址`而不是公网ip。
+![cidr](./cidr.png)
+**<center>图1-3</center>**
 - DHCP
 即Dynamic Host Configuration Protocol，该服务的主要目的是协助网络内的其他主机正确配置ip等网络配置，详细的内容可以参考鸟哥的[这篇文章](http://cn.linux.vbird.org/linux_server/0340dhcp.php#theory)
 - Route Table
@@ -79,7 +81,7 @@ VPC([Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/))字面意思是�
 新开一个浏览器tab，在AWS console中找到EC2
 
 ![ec2-search](./ec2-search.png)
-**<center>图1-3</center>**
+**<center>图1-4</center>**
 
 然后在左侧导航栏找到`instance`选项卡，最后点击右上角的Launch Instances进入创建EC2页面。Image选择Ubuntu Server 20.04 LTS (HVM), SSD Volume Type - ami-007b7745d0725de95。实例类型选择t2.nano就足够了。然后点选`Next: Configure Instance Details`进入详细配置。
 - Network 选择我们创建的vpc-test
@@ -89,7 +91,7 @@ VPC([Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/))字面意思是�
 然后就可以选择`Review and Launch`跳过存储和安全组的设置(注意这里的安全组配置会自动打开22端口访问以便于SSH连接)直接启动这台实例。点击Launch后AWS会提醒你为这台实例创建秘钥对以方便SSH登录，我们选择`Create a new key pair`创建一个新秘钥对，名字就叫`key-test`吧。点击Download key pair下载私钥，请务必保存好。最后点击Launch创建实例，你可以看到这个实例被分配的两个ip地址
 
 ![ec2-network](./ec2-network.png)
-**<center>图1-4</center>**
+**<center>图1-5</center>**
 
 我这里的这台实例分别是Public IPv4 address: 54.180.97.71和Private IPv4 address: 172.31.0.180。你获得的地址可能和我的不同。这两个地址一个是公网地址一个是私网地址。其中私网地址是从我们刚创建的subnet中分配得到的。
 
@@ -130,7 +132,7 @@ Request timeout for icmp_seq 2
 - 在左侧导航栏找到Route Tables并选中与我们创建的subnet关联的那个路由表。
 - 在下方选项卡中选中Routes
 - 点击`Edit routes`进入路由编辑页面。在这里我们可以看到一条默认的路由`172.31.0.0/16 -> local`这条非常好理解，对于VPC CIDR块内部的ip地址，定位到各个子网中。
-- 点击`Add route`，第一列填入`0.0.0.0/0`代表除了本地ip外的所有其他ip。第二列选择`Internet Gateway`并选中刚才我们创建的igw。
+- 点击`Add route`，第一列填入`0.0.0.0/0`代表匹配所有其他ip。第二列选择`Internet Gateway`并选中刚才我们创建的igw。
 - 保存更改
 
 现在Internet Gateway正式与子网建立了连接，让我们试试看能不能登录到EC2实例了
@@ -198,7 +200,10 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX packets 358  bytes 32442 (32.4 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-可以看到只有一张eth0上有私网的地址`172.31.0.180`, 公网地地址并没有作为一张网卡接入设备，而全是由NAT设备管理的。
+可以看到只有一张eth0上有私网的地址`172.31.0.180`, 公网地地址并没有作为一张网卡接入设备，而全是由NAT设备管理的。总体来看，整个网络结构如图2-2所示
+
+![ec2-net-structure](./ec2-net-structure.png)
+**<center>图2-2</center>**
 
 # 3 小结
 这篇文章介绍了AWS网络结构中最重要的几个组成部分：VPC, Subnet, Internet Gateway和Route table，并且从零搭建了一套最基础的网络结构使我们可以部署公网可访问的实例。今天的这个例子比起真正在生产环境中运行的AWS结构要简单得多，并且包含很多问题：
