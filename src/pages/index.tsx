@@ -6,7 +6,7 @@ import withLayout from "../util/HOC/withLayout";
 
 const IndexPage = () => {
 
-  const data = useStaticQuery(graphql`
+  const data: {allMarkdownRemark: MarkdownRemark<Blog>} = useStaticQuery(graphql`
     query IndexQuery {
       allMarkdownRemark(
         sort: { order: DESC, fields: [frontmatter___date] }
@@ -34,7 +34,7 @@ const IndexPage = () => {
       <SEO title="首页" />
       <div className="d-flex justify-content-between">
         <h1 className="m-0">最新博客</h1>
-        <Link to="/blog" className="align-self-end">更多>></Link>
+        <Link to="/blog" className="align-self-end">更多&gt;&gt;</Link>
       </div>
       <hr />
       {posts

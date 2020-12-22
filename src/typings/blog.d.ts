@@ -10,3 +10,9 @@ declare interface Blog {
   excerpt: string;
   html: string;
 }
+
+declare interface MarkdownRemark<T> {
+  edges: {
+    node: T;
+  }[]
+}
