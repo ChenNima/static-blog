@@ -216,4 +216,6 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 - 没有详细配置ACL，Security Group，安全性无法得到保障
 - 实例直接配置了公网ip地址，缺少安全性和可扩展性，占用宝贵的ip资源
 
-在以后的文章中我会介绍如何使用NAT Gateway和ELB让一组实例共享入向ip和出向ip。
+在下一篇的文章中我会介绍如何使用NAT Gateway和ELB让一组实例共享入向ip和出向ip。
+
+继续阅读: [从零搭建AWS网络(二): ELB与NAT Gateway](/aws-vpc-elb-and-nat-gateway)
