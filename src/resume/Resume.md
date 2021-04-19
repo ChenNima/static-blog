@@ -19,9 +19,12 @@ lang: "zh"
 
 ## SAP Labs China （ 2016年10月 ~  ）
 Web应用(前后端)开发以及DevOps。
+### Senior Full Stack Developer/SAP Concur （ 2021年1月 ~  ）
 
-SAP Jam Collaboration(以下简称Jam)是一个基于`Ruby on Rails`后台/`React`，`BackboneJS`为前端的团队协作工具
-### Senior DevOps/SAP Jam Collaboration （ 2020年3月 ~  ）
+### Senior DevOps/SAP Jam Collaboration （ 2020年3月 ~ 2020年12月 ）
+SAP Jam Collaboration(以下简称Jam)是一个基于`Ruby on Rails`后台/`React`，`BackboneJS`为前端的团队协作工具。
+
+
 带领团队推动架构演进，包括引入`Consul`与原有的`HAproxy`配合实现动态服务注册/发现和`Service Mesh`；引入`Fluentd`与`Prometheus`改造原有的日志系统与监控系统。在传统数据中心缺乏Kubernetes基础设施支持的情况下实现了与Kubernetes较为接近的微服务架构。
 
 与跨国团队合作，实现多个时区不间断地共同支持DevOps工作
@@ -43,6 +46,11 @@ SAP Jam Community是一款基于`EmberJS`/`Vue`和`Ruby on rails`的社交平台
 ### Intern Web developer
 
 编写基于`AngularJS`/`Ruby on Rails`/`NodeJS`的web服务
+
+# 认证
+<p class="d-flex justify-content-between">
+  <span style="width: 100px"><image style="width: 100px" src="./aws-certified-solutions-architect-associate.png" /></span>
+</p>
 
 # 技能
 

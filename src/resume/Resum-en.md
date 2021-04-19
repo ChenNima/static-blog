@@ -19,9 +19,9 @@ lang: "en"
 
 ## SAP Labs China （ 2016.10 ~  ）
 Web development(Frontend/backend) and DevOps
-
+### Senior Full Stack Developer/SAP Concur （ 2021.1 ~  ）
+### Senior DevOps/SAP Jam Collaboration （ 2020.3 ~ 2020.12 ）
 SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend.
-### Senior DevOps/SAP Jam Collaboration （ 2020.3 ~  ）
 Lead the DevOps team evolving the architecture. Including introducing `Consul` which works with `HAproxy` we have to implement dynamic service registration/discovering and `Service Mesh`; introducing `Fluentd` and `Prometheus` for refactoring original logging system and monitoring system. Implemented micro service architecture similar with Kubernetes in legacy data centers which do not have the infrastructure for Kubernetes.
 
 Work with intrernational teams. Achieved around-the-clock support of DevOps topics across multiple timezone.
@@ -40,6 +40,10 @@ SAP Jam Community is a social platform based on `EmberJS`/`Vue` and `Ruby on rai
 
 ### Intern Web developer
 Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
+# Certifications
+<p class="d-flex justify-content-between">
+  <span style="width: 100px"><image style="width: 100px" src="./aws-certified-solutions-architect-associate.png" /></span>
+</p>
 
 # Skill
 
