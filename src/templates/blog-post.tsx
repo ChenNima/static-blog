@@ -4,6 +4,7 @@ import styled, { keyframes } from "styled-components"
 import SEO from "../components/seo"
 import withLayout from "../util/HOC/withLayout"
 import Markdown from "../components/blog-post/markdown"
+import CcStatement from "../components/blog-post/cc-statement"
 
 interface Props {
   data: {
@@ -27,6 +28,7 @@ function BlogSIV({ data, className }: Props & StyledComponentProps) {
           />
         </div>
       </div>
+      <CcStatement />
     </>
   )
 }

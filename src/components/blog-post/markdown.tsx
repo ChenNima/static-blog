@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export default styled.article`
-  color: #6d757b;
+  color: #333;
   font-size: 1rem;
   h1, h2, h3, h4, h5, h6 {
     text-transform: none;
@@ -39,6 +39,6 @@ export default styled.article`
 
   p, li {
     line-height: 1.8;
-    font-size: 1.2rem
+    font-size: 1.1rem
   }
 `;

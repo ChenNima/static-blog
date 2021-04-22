@@ -6,7 +6,7 @@ type: "blog"
 ---
 
 在上一篇文章中[从零搭建AWS网络(一): VPC与Internet Gateway](/aws-vpc-internet-gateway)中，我们学习了如何从零开始搭建一套最简单的AWS网络并通过Internet Gateway来向公网提供服务。在文章的最后我留下了两个问题：
-- 没有详细配置ACL，Security Group，安全性无法得到保障
+- 没有详细配置Security Group等安全措施，安全性无法得到保障
 - 实例直接配置了公网ip地址，缺少安全性和可扩展性，占用宝贵的ip资源
 
 在今天的文章里，我们就来通过添加ELB，NAT Gateway等设施来解决这些问题。
@@ -42,7 +42,11 @@ AWS有一篇[文章](https://aws.amazon.com/blogs/security/how-to-record-ssh-ses
 - 在VPC -> NAT gateways -> Create NAT gateway中新建一个`NAT Gateway`，只要选择部署到Public Subnet，并分配一个新的`Elastic IP`即可
 - 在VPC -> Route tables里找到分配给Private Subnet的Route table, 点击Edit Routes编辑路由表。点击`Add route`，第一列填入`0.0.0.0/0`代表匹配所有其他ip。第二列选择`NAT Gateway`并选中刚才我们创建好的。
 
-部署完毕`NAT Gateway`后我们的EC2主机就可以访问外网了。我们可以通过跳板机登录上机器后执行`curl ip.sb`，返回的IP地址即我们访问公网使用的IP。这个IP应该与我们分配给`NAT Gateway`的`Elastic IP`保持一致。你可以尝试多部署几台EC2主机在Private Subnet中，然后你会发现所有主机的公网IP都与`NAT Gateway`一致，也就是说`NAT Gateway`将Private Subnet中的私网IP多对一地映射成了自己的`Elastic IP`，节省了IP资源。但由于是多对一的关系，又不包含端口映射，所以从外部网络访问这个IP是无法触达EC2主机的，这样满足我们对边界网络的要求。
+部署完毕`NAT Gateway`后我们的EC2主机就可以访问外网了。我们可以通过跳板机登录上机器后执行`curl ip.sb`，返回的IP地址即我们访问公网使用的IP。这个IP应该与我们分配给`NAT Gateway`的`Elastic IP`保持一致。你可以尝试多部署几台EC2主机在Private Subnet中如下图所示
+
+![nat-gateway-explained](./nat-gateway-explained.png)
+
+你会发现所有主机的公网IP都与`NAT Gateway`一致，也就是说`NAT Gateway`将Private Subnet中的私网IP多对一地映射成了自己的`Elastic IP`，节省了IP资源。这里`NAT Gateway`会对outbound流量的网络回包进行处理，送达至对应的私网ip，保证从EC2发出的网络请求响应能顺利送回。但如果直接从公网访问`NAT Gateway`的IP地址，并不能触达私网中的EC2主机。也就是说`NAT Gateway`是一个从内网到公网的“单行道”。
 
 # 4. Elastic Load Balancer
 那如何才能安全地对外暴露EC2提供的服务呢？那就需要使用[Elastic Load Balancer](https://aws.amazon.com/elasticloadbalancing/)。顾名思义这是AWS提供的负载均衡器，总共分为三种：`Application Load Balancer`(ALB), `Network Load Balancer`(NLB), 和`Classic Load Balancer`(CLB)。其中ALB是针对7层(HTTP, HTTPS等等)的，NLB是针对4层(TCP, TLS, UDP等等)的，而CLB可以同时提供4层和7层服务，但已经是不被AWS推荐的过期产品，对比较新的功能的支持是有限的。ELB和`Nginx`, `HAProxy`等负载均衡器所提供的功能非常接近，但它是完全由AWS部署运维的，你只需要新建一个ELB并且配置规则即可，不需要考虑它是如何被部署的。
