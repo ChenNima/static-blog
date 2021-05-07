@@ -12,8 +12,8 @@ lang: "zh"
  -  研究生/2017年毕业/华东理工大学 计算机科学与技术
  - 博客：https://chennima.github.io/blog
  - Github：https://github.com/ChenNima
- -  手机：18918561263
- -  邮箱：fennu637@sina.com
+ - LinkedIn: https://www.linkedin.com/in/yifei-chen-990199110/
+ -  邮箱：fennu637@sina.com<span class="d-none"> / 手机：18918561263</span>
 
 # 工作经历
 

@@ -12,8 +12,8 @@ lang: "en"
  - Master/Graduated at 2017/East China University of Science and Technology/Computer Science and Technology
  - Blog：https://chennima.github.io/blog
  - Github：https://github.com/ChenNima
- - Phone：18918561263
- - E-mail：fennu637@sina.com
+ - LinkedIn: https://www.linkedin.com/in/yifei-chen-990199110/
+ - E-mail：fennu637@sina.com<span class="d-none"> / Phone：18918561263</span>
 
 # Working Experience
 
