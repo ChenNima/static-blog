@@ -136,7 +136,7 @@ Denied
 keto check "cat lady" view videos /cats/2.mp4
 Allowed
 ```
-如果想搞明白`/cats/2.mp4`可以被谁访问，以及其原因，可以使用`explain`
+如果想搞明白`/cats/2.mp4`可以被谁访问，以及其原因，可以使用`expand`命令
 ```bash
 keto expand view videos /cats/2.mp4
 ∪ videos:/cats/2.mp4#view
