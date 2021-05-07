@@ -1,7 +1,7 @@
 ---
 path: "/keto-permission-manager-introduction"
 date: 2021-5-7T11:12:03+08:00
-title: "Zanzibar与ry/Keto: 权限管理服务简介"
+title: "Zanzibar与Ory/Keto: 权限管理服务简介"
 type: "blog"
 ---
 
