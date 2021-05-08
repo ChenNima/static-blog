@@ -22,9 +22,9 @@ Google Zanzibar是谷歌2016年起上线的一致性全球授权系统。这套�
 2. 灵活性：各个业务场景的鉴权需求都不尽相同，所以Zanzibar灵活地支持不同的权限模式
 3. 横向扩展：以横向扩展支持数万亿条规则，每秒百万级鉴权
 4. 性能：95%的请求10毫秒内完成，99%的请求100毫秒内完成
-5. 可用性上线三年99.999%可用是时间
+5. 可用性：上线三年间保证了99.999%的可用时间
 
-以上的各个特性中除了灵活性之外都是性能或算法上的特点，如果有兴趣可以阅读以下这篇论文：[Zanzibar: Google’s Consistent, Global Authorization System](https://research.google/pubs/pub48190/)。下面我们就灵活性这一特点看一下Zanzibar是如何定义鉴权模型的
+以上的各个特性中除了灵活性之外都是性能或算法上的特点，性能和可靠性上也有很大一部分得益于底层的[Spanner](https://research.google/pubs/pub39966/)数据库。如果有兴趣可以阅读以下这篇论文：[Zanzibar: Google’s Consistent, Global Authorization System](https://research.google/pubs/pub48190/)对Zanzibar进行更深入的了解。下面我们就灵活性这一特点看一下Zanzibar是如何定义鉴权模型的。
 
 ## 概念与定义
 ### 关系元组(Relation Tuples)
@@ -146,6 +146,27 @@ keto expand view videos /cats/2.mp4
 ```
 输出的树中`∪`代表了`Subject Set`， 而`☘`代表了最终可以访问`Object`的`Subject`。
 
+## 应用
+
+学会了keto和Zanzibar的基础概念和用法后，让我们通过一个例子看一下如何将keto应用到服务的鉴权中去。
+
+假设我们维护一个多租户的视频服务，我们仅允许特定的视频对某一个租户(tenant)的成员访问。比如下在面这个例子中，我们有一个租户`cat`，视频`cats.mp4`仅允许租户`cat`的`member`观看。对于这个业务我们部署一个`Profile Service`用于用于的注册登陆和验证，以及一个`Video Service`用于为用户提供视频。另外部署了一个Keto服务做集中式的鉴权。
+
+整个鉴权的流程如下图所示：
+
+![keto-sequence-flow](./keto-sequence-flow.png)
+
+让我们走一遍整个流程：
+
+0. Video Service预先在Keto中写入了一条规则`videos:cats.mp4#view@(tenants:cat#member)`，即仅允许`tenants:cat`的`member`来`view`目标`videos:cats.mp4`
+1. 用户`Felix`想要访问`cats.mp4`，但他在系统里并没有注册过，所以以匿名用户的身份对Video Service发起请求
+2. Video Service接收到请求后向Keto确认主体`*`是否可以访问`videos:cats.mp4`，由于之前写入的规则，请求被Keto判断为拒绝，随即felix的请求也失败了
+3. felix向Profile Service发起请求注册为租户`cat`的`member`， Profile Service完成注册后向Keto写入了`tenants:cat#member@felix`
+4. 注册完成的felix再次向Video Service发起对`cats.mp4`的请求，此时他已经获得了用户`felix`的身份，假设这里他将用户的session放在cookie中发起请求
+5. Video Service将Cookie中的session提取出来后向Profile Service验证用户，通过后向Keto确认主体`felix`是否可以访问`videos:cats.mp4`
+6. 此时由于felix已经是`tenants:cat`的`member`，Keto判定请求通过，最后Video Service将`cats.mp4`返回给Felix
+
+从这个例子我们可以看到，负责提供视频服务的Video Service自始至终只作了两件事：1. 向Keto写入视频权限规则 2. 向Keto询问某个用户是否有权限。而具体用户的角色`Role`的管理则是由Profile Service统一负责。在这个架构下，我们自己的两个服务在权限这个问题上完全是解耦的，所有的权限规则写入和检验全都由Keto统一负责，显著地增强了整个系统的弹性和可扩展性。
 # 总结
 
 Zanzibar及其开源实现Ory/Keto致力于实现一套灵活，弹性，可扩展，高可用的鉴权服务体系。Zanzibar在过去的几年中支持了几乎所有的谷歌云上服务，已经印证了它灵活性的价值，而谷歌这一套系统支持全球业务的运维能力也令人赞叹。而Keto也让我们使用这套理念治理自己项目的权限成为可能，但这不意味着Keto就是解决权限问题的银弹，部署一个单独的服务来做中央式权限管理对运维的要求相当高，并且不是每一个项目都需要如此灵活的权限管理。Zanzibar所提出的这套基于`Relation Tuple`的权限管理概念十分值得学习，它找到一个灵活性与复杂度的平衡点，使得相对简单的语法也能支持复杂多变的场景。

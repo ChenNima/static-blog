@@ -24,7 +24,7 @@ Web development(Frontend/backend) and DevOps
 SAP Jam Collaboration(a.k.a Jam) is a collaboration tool based on `Ruby on Rails` as backend and `React`，`BackboneJS` as frontend.
 Lead the DevOps team evolving the architecture. Including introducing `Consul` which works with `HAproxy` we have to implement dynamic service registration/discovering and `Service Mesh`; introducing `Fluentd` and `Prometheus` for refactoring original logging system and monitoring system. Implemented micro service architecture similar with Kubernetes in legacy data centers which do not have the infrastructure for Kubernetes.
 
-Work with intrernational teams. Achieved around-the-clock support of DevOps topics across multiple timezone.
+Work with international teams. Achieved around-the-clock support of DevOps topics across multiple timezone.
 ### DevOps/SAP Jam Collaboration （ 2019.3 ~ 2020.3 ）
 My major job is migrating the whole project to `Kubernetes` and deploy on AWS after joining the DevOps Team. What I have done including programming `Terraform` for managing infrastructure; Splitting and decoupling micro services into individual `Helm` Charts and deploying them separately; Utilizing `ArgoCD` for implementing `GitOps` workflow; Deploying `Istio` service mesh and implementing canary deployment, traffic monitoring and etc.
 #### Project Flota
@@ -39,8 +39,9 @@ SAP Jam Community is a social platform based on `EmberJS`/`Vue` and `Ruby on rai
 ## CareerBuilder China （ 2016.4 ~  2016.10 ）
 
 ### Intern Web developer
-Implement web service based on AngularJS`AngularJS`/`Ruby on Rails`/`NodeJS`
+Implement web service based on `AngularJS`/`Ruby on Rails`/`NodeJS`
 # Certifications
+
 <p class="d-flex justify-content-between">
   <span style="width: 100px"><image style="width: 100px" src="./aws-certified-solutions-architect-associate.png" /></span>
 </p>
