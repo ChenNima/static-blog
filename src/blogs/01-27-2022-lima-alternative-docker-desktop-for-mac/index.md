@@ -6,7 +6,7 @@ type: "blog"
 ---
 在2021年8月31日，Docker官方发布了一条[博客](https://www.docker.com/blog/updating-product-subscriptions/)表明了Docker desktop即将进入订阅收费制模式，并给了一段缓冲期至到2022年1月31日。这也意味着从2022年2月1日开始，所有将Docker用于商业目的，公司规模大于250人或者年收大于一千万美元的公司必须缴纳订阅费用了。虽然个人，非盈利组织和教育机构并不会被收费，但除了Docker desktop之外，还有没有一个适用于Mac平台的容器解决方案以便于日常的开发工作呢？
 
-得益于Linux内核对于Namespace月Cgroup的支持，容器技术在这几年飞速发展，不仅仅构建了云原生帝国，更使程序员们在本地开发时能方便地启动服务。而如果你开发用的电脑是运行MacOS，那么想在本地环境使用Docker，要么使用虚拟机，要么就只能用官方的Docker desktop for mac了。本质上Docker desktop for mac也是将docker启动在了一层虚拟机中，并在命令行提供了几乎与Linux一致的使用体验，甚至也加入了单机Kubernetes的支持。
+得益于Linux内核对于Namespace与Cgroup的支持，容器技术在这几年飞速发展，不仅仅构建了云原生帝国，更使程序员们在本地开发时能方便地启动服务。而如果你开发用的电脑是运行MacOS，那么想在本地环境使用Docker，要么使用虚拟机，要么就只能用官方的Docker desktop for mac了。本质上Docker desktop for mac也是将docker启动在了一层虚拟机中，并在命令行提供了几乎与Linux一致的使用体验，甚至也加入了单机Kubernetes的支持。
 
 那么一款合格的Docker desktop for Mac的"平替"，至少要满足以下的需求:
 - 在原生Mac系统中提供与Docker命令相兼容的的CLI工具
@@ -94,7 +94,6 @@ lima nerdctl $@
 #!/usr/bin/env bash
 # ~/.lima/bin/docker-compose
 lima nerdctl compose $@
-lima nerdctl $@
 ```
 将这两个文件配置为可执行
 ```bash
