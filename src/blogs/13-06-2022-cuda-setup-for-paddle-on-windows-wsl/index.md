@@ -141,6 +141,7 @@ sudo sudo find /usr/ -name 'libcuda.so'
 ```bash
 export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 ```
+<div style="word-break: break-word;">
 
 ### 参考链接
 1. https://docs.microsoft.com/en-us/windows/ai/directml/gpu-cuda-in-wsl
@@ -150,3 +151,4 @@ export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 5. https://www.jianshu.com/p/edaa744ea47d
 6. https://zhuanlan.zhihu.com/p/463235082
 7. https://zhuanlan.zhihu.com/p/83971195
+<div>
