@@ -26,7 +26,7 @@ export default styled.article`
 
   * :not(pre) > code[class*="language-"] {
     background: #F2F5EA;
-    color: #F28482;
+    color: #fc5755;
     white-space: pre-wrap;
     word-break: break-word;
     margin: 0 5px;
@@ -40,5 +40,13 @@ export default styled.article`
   p, li {
     line-height: 1.8;
     font-size: 1.1rem
+  }
+
+  ol {
+    word-break: break-word;
+  }
+
+  .gatsby-resp-image-wrapper {
+    margin: 2rem auto;
   }
 `;

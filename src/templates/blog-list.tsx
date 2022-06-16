@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, navigateTo } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
 import BlogItem from "../components/blog-list/blog-item"
@@ -32,7 +32,7 @@ function BlogList({ data, pageContext }: Props) {
         }
       </div>
       <div className="d-flex justify-content-center mt-5">
-        <Pagination currentPage={currentPage} pageCount={numPages} onPageClick={page => navigateTo(`blog/${page === 1 ? '' : page}`)}/>
+        <Pagination currentPage={currentPage} pageCount={numPages} onPageClick={page => navigate(`/blog/${page === 1 ? '' : page}`)}/>
       </div>
     </>
   )

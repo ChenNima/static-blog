@@ -1,5 +1,5 @@
 ---
-path: "/cuda-setup-for-paddle-on-windows-wsl"
+path: "/cuda-gpu-setup-for-paddle-on-windows-wsl"
 date: 2022-6-13T11:12:03+08:00
 title: "Windows环境下利用WSL搭建GPU训练/推理PaddlePaddle环境"
 type: "blog"
@@ -134,14 +134,97 @@ The third-party dynamic library (libcuda.so) that Paddle depends on is not confi
 
 首先在`/usr`路径下寻找该文件
 ```bash
-sudo sudo find /usr/ -name 'libcuda.so'
+> sudo sudo find /usr/ -name 'libcuda.so'
 # /usr/lib/wsl/lib/libcuda.so
 ```
 可以看到这个依赖其实已经在`/usr/lib/wsl/lib/libcuda.so`这个路径下了，只是PaddlePaddle无法从`LD_LIBRARY_PATH`中找到它。那只需要把`/usr/lib/wsl/lib`这个路径加入到`LD_LIBRARY_PATH`即可。
 ```bash
 export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 ```
-<div style="word-break: break-word;">
+
+# 5. 使用PaddleOCR验证GPU环境
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)是百度的开源OCR工具库，我们现在可以使用GPU跑一个PaddleOCR的端对端OCR推理来验证一下环境是否搭建成功。
+
+首先将PaddleOCR拉到本地并进入项目目录
+```bash
+git clone git@github.com:PaddlePaddle/PaddleOCR.git
+
+cd PaddleOCR
+```
+
+PaddleOCR中有包括目标检测，文字识别，关键信息提取等诸多工具。我们这次使用最直观的端到端OCR，即输入图片，输出文字的模型。相关的说明文档在这个位置`doc/doc_ch/algorithm_e2e_pgnet.md`
+
+首先需要下载与训练好的模型：
+```bash
+mkdir inference && cd inference
+# 下载英文端到端模型并解压
+wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/pgnet/e2e_server_pgnetA_infer.tar && tar xf e2e_server_pgnetA_infer.tar
+```
+解压后的文件目录结构为：
+```bash
+├── e2e_server_pgnetA_infer
+│   ├── inference.pdiparams
+│   ├── inference.pdiparams.info
+│   └── inference.pdmodel
+```
+
+其中比较关键的两个文件为`inference.pdmodel`以及`inference.pdiparams`，前者储存了整个神经网络模型的结构，而后者储存了各层训练完后的权重参数。如果你想可视化地浏览整个文件，可以使用[Netron](https://netron.app/)这个工具打开这两个文件，整个模型的结构就一览无余了。
+![Netron](./netron.png)
+
+下载完模型后，回到PaddleOCR的根目录，就可以使用官方提供的工具对测试数据进行批量识别了:
+```bash
+> python3 tools/infer/predict_e2e.py --e2e_algorithm="PGNet" --image_dir="./doc/imgs_en/" --e2e_model_dir="./inference/e2e_server_pgnetA_infer/" --e2e_pgnet_valid_set="totaltext"
+# [2022/06/16 16:24:31] ppocr INFO: Predict time of ./doc/imgs_en/254.jpg: 5.411184072494507
+# [2022/06/16 16:24:31] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_254.jpg
+# [2022/06/16 16:24:31] ppocr INFO: Predict time of ./doc/imgs_en/img623.jpg: 0.08095073699951172
+# [2022/06/16 16:24:31] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_img623.jpg
+# [2022/06/16 16:24:31] ppocr INFO: Predict time of ./doc/imgs_en/img_10.jpg: 0.09116768836975098
+# [2022/06/16 16:24:31] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_img_10.jpg
+# [2022/06/16 16:24:31] ppocr INFO: Predict time of ./doc/imgs_en/img_11.jpg: 0.07429361343383789
+# [2022/06/16 16:24:31] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_img_11.jpg
+# [2022/06/16 16:24:32] ppocr INFO: Predict time of ./doc/imgs_en/img_12.jpg: 0.10506463050842285
+# [2022/06/16 16:24:32] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_img_12.jpg
+# [2022/06/16 16:24:32] ppocr INFO: Predict time of ./doc/imgs_en/img_195.jpg: 0.0799555778503418
+# [2022/06/16 16:24:32] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_img_195.jpg
+# [2022/06/16 16:24:32] ppocr INFO: Predict time of ./doc/imgs_en/model_prod_flow_en.png: 0.07767033576965332
+# [2022/06/16 16:24:32] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_model_prod_flow_en.png
+# [2022/06/16 16:24:32] ppocr INFO: Predict time of ./doc/imgs_en/wandb_metrics.png: 0.14113736152648926
+# [2022/06/16 16:24:32] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_wandb_metrics.png
+# [2022/06/16 16:24:32] ppocr INFO: Predict time of ./doc/imgs_en/wandb_models.png: 0.15174198150634766
+# [2022/06/16 16:24:32] ppocr INFO: The visualized image saved in ./inference_results/e2e_res_wandb_models.png
+# [2022/06/16 16:24:32] ppocr INFO: Avg Time: 0.10024774074554443
+```
+
+在识别的过程中，在另一个终端使用`nvidia-smi`，就能看到一个python任务正在占用GPU：
+```bash
+> nvidia-smi
+# Thu Jun 16 16:24:30 2022       
+# +-----------------------------------------------------------------------------+
+# | NVIDIA-SMI 515.43.04    Driver Version: 516.01       CUDA Version: 11.7     |
+# |-------------------------------+----------------------+----------------------+
+# | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+# | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+# |                               |                      |               MIG M. |
+# |===============================+======================+======================|
+# |   0  NVIDIA GeForce ...  On   | 00000000:08:00.0  On |                  N/A |
+# |  0%   48C    P8    16W / 198W |   3412MiB /  8192MiB |     21%      Default |
+# |                               |                      |                  N/A |
+# +-------------------------------+----------------------+----------------------+
+                                                                               
+# +-----------------------------------------------------------------------------+
+# | Processes:                                                                  |
+# |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+# |        ID   ID                                                   Usage      |
+# |=============================================================================|
+# |    0   N/A  N/A      9129      C   /python3.9                      N/A      |
+```
+
+打开保存结果的目录`nference_results`就能看到识别的结果了
+![ocr_res](./e2e_res_img_12.jpg)
+
+# 6. It's all setup, happy deep learning!
+
+最后别忘记安装VScode的[WSL remote插件](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)了, happy deep learning!
 
 ### 参考链接
 1. https://docs.microsoft.com/en-us/windows/ai/directml/gpu-cuda-in-wsl
@@ -151,4 +234,3 @@ export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 5. https://www.jianshu.com/p/edaa744ea47d
 6. https://zhuanlan.zhihu.com/p/463235082
 7. https://zhuanlan.zhihu.com/p/83971195
-<div>
