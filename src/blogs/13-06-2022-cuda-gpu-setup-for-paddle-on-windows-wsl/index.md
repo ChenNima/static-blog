@@ -219,7 +219,7 @@ wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/pgnet/e2e_server_pgnetA_infer.
 # |    0   N/A  N/A      9129      C   /python3.9                      N/A      |
 ```
 
-打开保存结果的目录`nference_results`就能看到识别的结果了
+打开保存结果的目录`inference_results`就能看到识别的结果了
 ![ocr_res](./e2e_res_img_12.jpg)
 
 # 6. It's all setup, happy deep learning!
