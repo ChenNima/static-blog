@@ -1,7 +1,7 @@
 ---
 path: "/cuda-gpu-setup-for-paddle-on-windows-wsl"
 date: 2022-6-13T11:12:03+08:00
-title: "Windows环境下利用WSL搭建GPU训练/推理PaddlePaddle环境"
+title: "Windows环境下利用WSL搭建GPU训练/推理PaddlePaddle神经网络环境"
 type: "blog"
 ---
 
@@ -17,6 +17,13 @@ type: "blog"
 打开管理员权限的PowerShell输入一下命令即可安装WSL，目前默认安装的版本是`Ubuntu 20.04 LTS`。需要注意的是目前为了在WSL里使用CUDA,需要安装基于`glibc`的Linux发行，默认的Ubuntu是满足要求的。
 ```bash
 wsl --install
+```
+
+安装完毕后使用`wsl --status`命令可获取当前WSL的安装信息，需要确保安装的版本是WSL2，如果仍是WSL1.X，可使用`wsl --set-default-version 2`命令将默认版本切换至WSL2后重新安装。
+```bash
+> wsl --status
+# 默认分发：Ubuntu
+# 默认版本：2
 ```
 
 WSL安装完毕后进入Linux子系统，此时因为宿主机已经安装了WSL显卡驱动，在wsl内部输入`nvidia-smi`已经可以获取GPU信息
