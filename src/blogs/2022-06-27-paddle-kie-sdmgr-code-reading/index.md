@@ -1,27 +1,27 @@
 ---
 path: "/paddle-ocr-kie-sdmgr-code-overview-and-application"
 date: 2022-6-27T11:12:03+08:00
-title: "关键信息提取网络SDMG-R代码详解(1): 概览与应用"
+title: "关键信息提取网络SDMGR代码详解(1): 概览与应用"
 type: "blog"
 ---
 
-在[上篇文章](/cuda-gpu-setup-for-paddle-on-windows-wsl)中我们简单介绍了如何在Windows的WSL2环境中搭建PaddlePaddle的GPU训练/推理环境，那么这次就来结合代码一起来看看PaddleOCR中KIE模块: SDMG-R网络的代码与如何推理/训练吧。
+在[上篇文章](/cuda-gpu-setup-for-paddle-on-windows-wsl)中我们简单介绍了如何在Windows的WSL2环境中搭建PaddlePaddle的GPU训练/推理环境，那么这次就来结合代码一起来看看PaddleOCR中KIE模块: SDMGR网络的代码与如何推理/训练吧。
 
-# 1. 什么是KIE任务与SDMG-R网络
-KIE(Key Infomation Extraction)即关键信息提取是计算机视觉任务中的一种，目的是在给定的图片以及其他信息中提取关键信息。例如这次要介绍的SDMG-R网络，在给定图片以及图片中文字的位置和内容后，可以给文字信息分类。比如在[WildReceipt](https://paperswithcode.com/dataset/wildreceipt)这个英文小票的数据集上训练好的SDMG-R模型，可以在给定图片和文字后提取出如下信息：
+# 1. 什么是KIE任务与SDMGR网络
+KIE(Key Infomation Extraction)即关键信息提取是计算机视觉任务中的一种，目的是在给定的图片以及其他信息中提取关键信息。例如这次要介绍的SDMGR网络，在给定图片以及图片中文字的位置和内容后，可以给文字信息分类。比如在[WildReceipt](https://paperswithcode.com/dataset/wildreceipt)这个英文小票的数据集上训练好的SDMGR模型，可以在给定图片和文字后提取出如下信息：
 
 ![WildReceipt](./receipt.png)
 
-可以看到在图中标红的部分就是对小票OCR出的文字框的分类，目前这个预训练的模型可以较为准确地识别英文小票中店名，店地址，商品名，单价，总价，税额之类的关键信息。由于SDMG-R网络专注于在双模态(即图片与文字信息)中提取关键信息，在使用前需要对整张图片进行一次OCR来获得文字的内容和位置信息。
+可以看到在图中标红的部分就是对小票OCR出的文字框的分类，目前这个预训练的模型可以较为准确地识别英文小票中店名，店地址，商品名，单价，总价，税额之类的关键信息。由于SDMGR网络专注于在双模态(即图片与文字信息)中提取关键信息，在使用前需要对整张图片进行一次OCR来获得文字的内容和位置信息。
 
 
-[SDMG-R](https://arxiv.org/abs/2103.14470v1)(Spatial Dual-Modality Graph Reasoning for Key Information Extraction)网络的论文是2021年由商汤递交，默认的实现在[MMOCR](https://github.com/open-mmlab/mmocr)中。该网络的名字念起来比较拗口，我们先来看一眼整个网络的结构：
+[SDMGR/SDMG-R](https://arxiv.org/abs/2103.14470v1)(Spatial Dual-Modality Graph Reasoning for Key Information Extraction)网络的论文是2021年由商汤递交，默认的实现在[MMOCR](https://github.com/open-mmlab/mmocr)中。该网络的名字念起来比较拗口，我们先来看一眼整个网络的结构：
 
 ![sdmgr-net](./sdmgr-net.jpg)
 
 总的来说网络分为三个层次：
 
-1. Backbone部分一方面使用[U-Net](https://arxiv.org/abs/1505.04597)卷积网络提取图片的视觉特征，经过一个`ROI Pooling`转化为固定大小，另一方面使用[双向LSTM](https://paperswithcode.com/method/bilstm)(实际代码不论PaddleOCR还是MMOCR，都使用了LSTM而不是Bi-LSTM)提取文字特征。最后使用`Kronecker乘积`结合了视觉特征和文字特征输出给后续模块
+1. Backbone部分一方面使用[U-Net](https://arxiv.org/abs/1505.04597)卷积网络提取图片的视觉特征，经过一个`ROI Pooling`抽取对应各个文字框的特征图，另一方面使用[双向LSTM](https://paperswithcode.com/method/bilstm)(实际代码不论PaddleOCR还是MMOCR，都使用了LSTM而不是Bi-LSTM)提取文字特征。最后使用`Kronecker乘积`结合了视觉特征和文字特征输出给后续模块
 2. Neck部分将结合后的特征作为节点放入一个图神经网络进行迭代，而图网络的边则是由文字节点之间的空间信息构成的。
 3. Head部分将图网络的节点和边输出各过了一个全连接层转换到对应分类的数量，最后通过一个`softmax`输出分类结果。
 
@@ -32,18 +32,18 @@ KIE(Key Infomation Extraction)即关键信息提取是计算机视觉任务中�
 2. Graph Reasoning：利用图推理模模块的迭代来优化节点特征
 
 对于论文更详细的解读可以参考B站视频
-- [AI论文精读之SDMG-R](https://www.bilibili.com/video/BV1K44y1M7ah)
+- [AI论文精读之SDMGR](https://www.bilibili.com/video/BV1K44y1M7ah)
 
 以及两篇文章
 
-- [论文阅读: Spatial Dual-Modality Graph Reasoning for Key Information Extraction (关键信息提取算法)](https://blog.csdn.net/shiwanghualuo/article/details/122315487?spm=1001.2014.3001.5501)
-- [SDMG-R模型学习笔记](https://blog.csdn.net/sinat_33455447/article/details/122987871)
+- [论文阅读: Spatial Dual-Modality Graph Reasoning for Key Information Extraction (关键信息提取算法)](https://blog.csdn.net/shiwanghualuo/article/details/122315487)
+- [SDMGR模型学习笔记](https://blog.csdn.net/sinat_33455447/article/details/122987871)
 
 我们也会在之后的文章中对PaddleOCR中的代码实现进行精读。
 
 # 2. 模型配置概览
 
-在PaddleOCR中，每个模型除了代码实现之外，还需要一个配置文件将各个模块组织起来，这样就可以利用PaddleOCR自带的训练工具进行训练了。而这个配置文件则是带领我们认识整个模型最好的切入点。在阅读代码或是下载预训练模型进行推理之前，让我们阅读一下SDMG-R网络的配置文件吧
+在PaddleOCR中，每个模型除了代码实现之外，还需要一个配置文件将各个模块组织起来，这样就可以利用PaddleOCR自带的训练工具进行训练了。而这个配置文件则是带领我们认识整个模型最好的切入点。在阅读代码或是下载预训练模型进行推理之前，让我们阅读一下SDMGR网络的配置文件吧
 
 由于有一部分配置文件指向了数据集中文件，不妨先下载数据集
 
@@ -138,7 +138,7 @@ cd PaddleOCR
 # 下载并解压预训练参数
 wget https://paddleocr.bj.bcebos.com/dygraph_v2.1/kie/kie_vgg16.tar && tar xf kie_vgg16.tar
 ```
-完成后预训练参数在`kie_vgg16`目录下。比较关键的两个文件`kie_vgg16/best_accuracy.pdopt`和`kie_vgg16/best_accuracy.pdparams`分别是优化器参数和模型参数。由于SDMG-R的模型源码是本地的python文件，就不需要再下载一个模型文件了。
+完成后预训练参数在`kie_vgg16`目录下。比较关键的两个文件`kie_vgg16/best_accuracy.pdopt`和`kie_vgg16/best_accuracy.pdparams`分别是优化器参数和模型参数。由于SDMGR的模型源码是本地的python文件，就不需要再下载一个模型文件了。
 
 现在使用自带的infer工具可以进行推理：
 ```bash
@@ -207,7 +207,7 @@ python tools/train.py -c configs/kie/kie_unet_sdmgr.yml -o Global.save_model_dir
 
 ## 制作数据集
 
-制作数据集自然是最重要的步骤。需要注意的是SDMG-R模型在推理阶段需要很多的数据，包括图片，文字信息和文字位置。在推理阶段文字信息和文字位置大概率是从某个前置的OCR网络中输出出来的。这也就意味着在制作数据集的阶段，文字内容和位置信息最好也使用与未来推理阶段相同的OCR网络来生成，最后再手动对各个文字框进行标号。如果制作数据集时手动画了文字的边界框以及标注文字内容，那么很容易造成模型训练完后推理时受OCR输出的结果不准确而影响分类的效果。
+制作数据集自然是最重要的步骤。需要注意的是SDMGR模型在推理阶段需要很多的数据，包括图片，文字信息和文字位置。在推理阶段文字信息和文字位置大概率是从某个前置的OCR网络中输出出来的。这也就意味着在制作数据集的阶段，文字内容和位置信息最好也使用与未来推理阶段相同的OCR网络来生成，最后再手动对各个文字框进行标号。如果制作数据集时手动画了文字的边界框以及标注文字内容，那么很容易造成模型训练完后推理时受OCR输出的结果不准确而影响分类的效果。
 
 ## 选择合适的字典
 
@@ -215,7 +215,9 @@ python tools/train.py -c configs/kie/kie_unet_sdmgr.yml -o Global.save_model_dir
 
 # 5.总结
 
-今天这篇文章从模型配置的角度介绍了`PaddleOCR`中实现的`SDMG-R`关键信息提取网络总体的代码框架，以及在实践过程中的一些坑。下一篇文章会从更详细的代码角度逐个模块地讲解整个网络。
+今天这篇文章从模型配置的角度介绍了`PaddleOCR`中实现的`SDMGR`关键信息提取网络总体的代码框架，以及在实践过程中的一些坑。下一篇文章会从更详细的代码角度逐个模块地讲解整个网络。
+
+[关键信息提取网络SDMGR代码详解(2): 数据处理与主干网络](/paddle-ocr-kie-sdmgr-code-data-process-and-backbone)
 
 ### 参考链接
 1. https://arxiv.org/abs/2103.14470v1
