@@ -75,6 +75,9 @@ Architecture:
   Head:
     # ppocr/modeling/heads/kie_sdmgr_head.py
     name: SDMGRHead
+    # 添加以下两个参数来适配自定义的字典文件与分类文件
+    # num_chars: 92
+    # num_classes: 26
 
 Loss:
   # ppocr/losses/kie_sdmgr_loss.py
@@ -118,7 +121,7 @@ Eval:
   - `img_scale`: 将图片的长边限制在1024像素，短边限制在512像素，这个选项仅在`Train.dataset.transforms.KieResize`启用时生效
 - Architecture
   - `Backbone`: 整个Backbone代码的位置在`ppocr/modeling/backbones/kie_unet_sdmgr.py`，与上文中图片划分出网络的三个模块不同，代码中的Backbone仅包含U-Net卷积网络，并不包含文字的处理。
-  - `Head`: 代码位置在`ppocr/modeling/heads/kie_sdmgr_head.py`由于没有代码没有Neck层，`LSTM`，`Kronecker乘积`，图推理和最后的两个全连接代码全在Head模块中了。这个模块也是整个网络中最重要的模块，如果修改了class数量或者文字embedding用字典文件，都需要在这个模块中修改相应的代码，下文中会详细介绍。
+  - `Head`: 代码位置在`ppocr/modeling/heads/kie_sdmgr_head.py`由于没有代码没有Neck层，`LSTM`，`Kronecker乘积`，图推理和最后的两个全连接代码全在Head模块中了。这个模块也是整个网络中最重要的模块，如果修改了class数量或者文字embedding用字典文件，都需要修改配置文件添加`num_chars`和`num_classes`参数，下文中会详细介绍。
 - Loss: 代码位置在`ppocr/losses/kie_sdmgr_loss.py`，分别对网络中输出的`node`和`edge`做交叉熵loss并相加获得总loss(默认权重都是1)。
 - Optimizer： 默认使用Adam作为优化器
 - Metric: 代码位置在`ppocr/metrics/kie_metric.py`。评估模型使用了节点的[F1-score](https://en.wikipedia.org/wiki/F-score)，即对文字分类的精度(precision)和召回(recall)做了调和平均。需要注意的是部分类在计算F1时被忽略了，包括了`Ignore`，`Other`以及各种key，如果你修改了class文件，那么也要相应地调整`ppocr/metrics/kie_metric.py`中的`ignores`数组。
@@ -126,7 +129,7 @@ Eval:
   - `label_file_list`: 指向了训练数据集，PaddleOCR版本的数据集使用了类似于`tsv`格式，即`图片位置\t标号`。
   - `ratio_list`: 如果指定了多个`label_file`, 则可以分别指定各个`label_file`在每个训练epoch中采样的比例。
   - `transforms`:
-    - `KieLabelEncode`: 指定了用于embedding文字信息的字典文件位置。Wildreceipt数据集自带了英文字典文件，如果你希望使用中文字典，可以使用PaddleOCR自带的中文字典`ppocr/utils/ppocr_keys_v1.txt`。需要注意如果修改了字典文件，需要同时修改`ppocr/modeling/heads/kie_sdmgr_head.py`中`SDMGRHead`初始化的`num_chars`参数为`字典长度 + 1`。如果你使用了`ppocr_keys_v1.txt`，那么这个值是6624。
+    - `KieLabelEncode`: 指定了用于embedding文字信息的字典文件位置。Wildreceipt数据集自带了英文字典文件，如果你希望使用中文字典，可以使用PaddleOCR自带的中文字典`ppocr/utils/ppocr_keys_v1.txt`。需要注意如果修改了字典文件，配置文件中`SDMGRHead`的参数`num_chars`参数为`字典长度 + 1`。如果你使用了`ppocr_keys_v1.txt`，那么这个值是6624。
 - Eval: 基本同`Train`
 
 # 3. 使用模型
@@ -192,7 +195,7 @@ python tools/train.py -c configs/kie/kie_unet_sdmgr.yml -o Global.save_model_dir
 
 模型自带的预训练参数效果很不错，但是应用场景也仅仅是对英文小票的识别而已。如何将这个模型应用到其他领域呢？总的来说，有以下几个步骤。
 
-## 制作分类文件
+## 4.1 制作分类文件
 
 在制作数据集前应当先确定任务的目标：需要将图片中的文字分成哪些类？wildreceipt数据集中的分类又主要分为四种：
 
@@ -203,15 +206,15 @@ python tools/train.py -c configs/kie/kie_unet_sdmgr.yml -o Global.save_model_dir
 
 在以上四大类中，`Ignore`， `Others`和`Keys`都是不参与模型评估的，也就是说模型的`F1 score`是完全取决于Values的分类精度和召回。**决定一个class是不是参与模型验证的是`ppocr/metrics/kie_metric.py`中`compute_f1_score`函数的`ignores`数组**。 默认`ignores = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 25]`就一一对应了`train_data/wildreceipt/class_list.txt`中的`Ignore`， `Others`和`Keys`。**如果你不修改这个数组来对应你自己的class文件，那么很可能模型验证阶段给出的`F1 score`是不正确的**
 
-另外`ppocr/modeling/heads/kie_sdmgr_head.py`中`SDMGRHead`初始化的`num_classes`参数也要被修改为`class数 + 1`。
+另外配置文件中`Architecture.Head.num_classes`参数也要被修改为`class数 + 1`。
 
-## 制作数据集
+## 4.2 制作数据集
 
 制作数据集自然是最重要的步骤。需要注意的是SDMGR模型在推理阶段需要很多的数据，包括图片，文字信息和文字位置。在推理阶段文字信息和文字位置大概率是从某个前置的OCR网络中输出出来的。这也就意味着在制作数据集的阶段，文字内容和位置信息最好也使用与未来推理阶段相同的OCR网络来生成，最后再手动对各个文字框进行标号。如果制作数据集时手动画了文字的边界框以及标注文字内容，那么很容易造成模型训练完后推理时受OCR输出的结果不准确而影响分类的效果。
 
-## 选择合适的字典
+## 4.3 选择合适的字典
 
-如果你的任务中文字是英文加常见标点，那么可以直接使用wildreceipt自带的字典文件，也不需要修改代码。但如果你的任务涉及到其他语言或者符号，那么就需要使用对应的字典了。PaddleOCR内置了包括中文，日语，韩文，法文，德文等在内的字典文件，具体位置可以参考[文档](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_ch/recognition.md)。在修改字典文件后要记得同时修改`ppocr/modeling/heads/kie_sdmgr_head.py`中`SDMGRHead`初始化的`num_chars`参数为`字典长度 + 1`，这样输入的文字才能正确地被embedding。
+如果你的任务中文字是英文加常见标点，那么可以直接使用wildreceipt自带的字典文件，也不需要修改代码。但如果你的任务涉及到其他语言或者符号，那么就需要使用对应的字典了。PaddleOCR内置了包括中文，日语，韩文，法文，德文等在内的字典文件，具体位置可以参考[文档](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_ch/recognition.md)。在修改字典文件后要记得同时修改配置文件中`Architecture.Head.num_chars`参数为`字典长度 + 1`，这样输入的文字才能正确地被embedding。
 
 # 5.总结
 
