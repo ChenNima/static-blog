@@ -186,7 +186,7 @@ def compute_relation(self, boxes):
     # 所有边界框右下角点的X,Y轴值, 形状都是[n, 1]
     x2s, y2s = boxes[:, 4:5], boxes[:, 5:6]
     # ws是同一个框右下X减去左上X，即宽度。+1防止ws是0
-    # hs是右下Y减去左上Y，但是最大限制为1
+    # hs是右下Y减去左上Y，但是最小值限制在1以上。
     # ws和hs的形状都是[n, 1]
     ws, hs = x2s - x1s + 1, np.maximum(y2s - y1s + 1, 1)
     # self.norm为常数10
