@@ -53,7 +53,7 @@ data['image'] = (img.astype('float32') * self.scale - self.mean) / self.std
 截至这一步，图片信息已经被处理为了形状为[1, 1, 3]，各个通道上均值为0方差为1的张量。
 
 ## 1.3 KieLabelEncode
-代码位置: `ppocr/data/imaug/label_ops.py#NormalizeImage`。这一步进入了对文字标签的处理，包含了空间信息和语义信息，所以代码会比较多，我们一步一步来看。
+代码位置: `ppocr/data/imaug/label_ops.py#KieLabelEncode`。这一步进入了对文字标签的处理，包含了空间信息和语义信息，所以代码会比较多，我们一步一步来看。
 
 首先，将标号的json字符串反序列化，处理空间的信息
 ```python
