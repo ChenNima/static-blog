@@ -1,5 +1,5 @@
 ---
-path: "/paddle-ocr-kie-sdmgr-code-rnn-and-gnn"
+path: "/paddle-ocr-kie-sdmgr-code-embedding-lstm-and-gnn"
 date: 2022-7-12T11:12:03+08:00
 title: "关键信息提取网络SDMGR代码详解(3): 循环神经网络与图神经网络"
 type: "blog"
@@ -12,7 +12,7 @@ type: "blog"
 这两部分的代码都位于`ppocr/modeling/heads/kie_sdmgr_head.py`。
 
 # 1. 文字嵌入(Embedding)
-在经过数据预处理和主干网络后，批量中每一条数据的文字部分都被处理成了一个[num\_nodes, recoder\_len]大小的矩阵。其中`num_nodes`代表了这条数据中一共有多少个文字节点，而`recoder_len`则表示了这条数据的所有文字记录中，最长的那条文字的长度。对于长度不足`recoder_len`的文字，则用`-1`补齐到`recoder_len`的长度。现在每条文字对应的数组中，除了padding所用的-1外，其余的元素均使用字典将文字转换到了`float32`格式的数字标号。而为了能使得LSTM能够处理这些文字信息，仍然需要将这些`float32`格式的数字标号转换为长度固定的数组表示，也就是说需要完成文字的嵌入。
+在经过数据预处理和主干网络后，批量中每一条数据的文字部分都被处理成了一个[num\_nodes, recoder\_len]大小的矩阵。其中`num_nodes`代表了这条数据中一共有多少个文字节点，而`recoder_len`则表示了这条数据的所有文字记录中，最长的那条文字的长度。对于长度不足`recoder_len`的文字，则用`-1`补齐到`recoder_len`的长度。现在每条文字对应的向量中，除了padding所用的-1外，其余的元素均使用字典将文字转换到了`float32`格式的数字标号。而为了能使得LSTM能够处理这些文字信息，仍然需要将这些`float32`格式的数字标号转换为长度固定的向量表示，也就是说需要完成文字的嵌入。
 ```python
 relations, texts, x = input
 node_nums, char_nums = [], []
@@ -20,7 +20,7 @@ for text in texts:
     # text.shape[0]获取了一条数据中文字节点的数量
     # node_nums则记录了一个batch中所有数据的文字节点数量，形状为[batch_size]
     node_nums.append(text.shape[0])
-    # 计算每条文字去除padding后的长度，形成形状为[num_nodes]的数组
+    # 计算每条文字去除padding后的长度，形成形状为[num_nodes]的向量
     # char_nums形状为[batch_size, num_nodes]，记录了每个batch各个文字的真实长度
     char_nums.append(paddle.sum((text > -1).astype(int), axis=-1))
 
@@ -47,7 +47,7 @@ embed_nodes = self.node_embed(temp)
 ```python
 self.node_embed = nn.Embedding(num_chars, node_input, 0)
 ```
-`num_chars`为字典的长度，而`node_input`是一个超参数(默认为32)，即每个词嵌入后的数组长度。第三个参数`padding_idx=0`表示所有的`0`都只是用作Padding的。
+`num_chars`为字典的长度，而`node_input`是一个超参数(默认为32)，即每个词嵌入后的向量长度。第三个参数`padding_idx=0`表示所有的`0`都只是用作Padding的。
 经过Embedding后，每个字符都从单个数字被展开为了长度为`node_input`的向量。最终输入到LSTM中的文字矩阵形状为`[all_num_nodes, max_num, node_input]`。
 
 # 2. 循环神经网络LSTM
@@ -63,11 +63,11 @@ self.rnn = nn.LSTM(
     input_size=node_input, hidden_size=hidden, num_layers=1)
 ```
 这里直接使用了Paddle对LSTM的实现，传入的参数分别为
-- input_size=node_input: 决定了输入`x(t)`的形状。`node_input`作为超参数决定了词嵌入后每个字符对应的向量长度，也决定了LSTM的输入形状。
-- hidden_size=hidden：`node_embed`也是一个超参数，决定了LSTM隐藏层的大小以及输出向量的长度。这里`node_embed`默认为256，如果模型选择了双向`bidirectional=true`则隐藏层大小会减半，但实际并未将LSTM变为双向LSTM。
+- input\_size=node\_input: 决定了输入`x(t)`的形状。`node_input`作为超参数决定了词嵌入后每个字符对应的向量长度，也决定了LSTM的输入形状。
+- hidden\_size=hidden：`node_embed`也是一个超参数，决定了LSTM隐藏层的大小以及输出向量的长度。这里`node_embed`默认为256，如果模型选择了双向`bidirectional=true`则隐藏层大小会减半，但实际并未将LSTM变为双向LSTM。
 - num_layers=1：LSTM的层数固定为1
 
-将上一步嵌入完成的文字输入LSTM网络即可得到编码完成的文字特征`rnn_nodes`，形状为[all_num_nodes, max_num, hidden_size]。即将上一步得到的`embed_nodes`的最后一个维度从`node_input`变为了`hidden_size`, `hidden_size`默认为256。
+将上一步嵌入完成的文字输入LSTM网络即可得到编码完成的文字特征`rnn_nodes`，形状为[all\_num\_nodes, max\_num, hidden\_size]。即将上一步得到的`embed_nodes`的最后一个维度从`node_input`变为了`hidden_size`, `hidden_size`默认为256。
 ```python
 rnn_nodes, _ = self.rnn(embed_nodes)
 ```
@@ -80,7 +80,7 @@ LSTM输出的结果包含了各个node文字序列中，每一个时间步的输
 b, h, w = rnn_nodes.shape
 # 所有的node，形状为[all_num_nodes, hidden_size]
 nodes = paddle.zeros([b, w])
-# 一维数组，批量中所有文字的长度，该数组长度为批量中所有节点的个数，即all_num_nodes
+# 一维向量，批量中所有文字的长度，该向量长度为批量中所有节点的个数，即all_num_nodes
 all_nums = paddle.concat(char_nums)
 # 获取长度不为0的文字index，shape为[all_num_nodes, 1]
 valid = paddle.nonzero((all_nums > 0).astype(int))
@@ -121,7 +121,7 @@ nodes = paddle.scatter(nodes, valid.squeeze(1), t)
 
 > 例如假设全体文字最长地长度`max_num`为3，那么1, 2, 3就会被分别编码为向量[1, 0, 0], [0, 1, 0] 和 [0, 0, 1]。
 > 不用考虑0是因为长度为0的节点在这是已经被剔除了。
-> 那么实际长度为2的序列[11, 12]由于被padding到了长度max_num=3，就成为了[11, 12, 0]。
+> 那么实际长度为2的序列[11, 12]由于被padding到了长度max\_num=3，就成为了[11, 12, 0]。
 > 此时想要获得实际长度的最后一个元素12，那就可以先对长度2进行num_classes=3的独热编码获得[0, 1, 0]，然后与向量[11, 12, 0]按元素乘积再累加，就可以获得元素12了。
 
 看起来相当繁琐，但对于比较大的矩阵来说，这样的操作可以通过数次矩阵运算，轻松地计算出所有节点地输出。最终LSTM的输出形状为`[all_num_nodes, hidden_size]`。
@@ -148,13 +148,15 @@ SDMGR使用了[克罗内克积](https://zh.m.wikipedia.org/zh/%E5%85%8B%E7%BD%97
 
 ![kronecker_example](./kronecker_example.svg)
 
-SDMGR使用的克罗内克积基于计算复杂度的考虑进行了修改。输入x与nodes会分别通过一个全连接层统一变成shape为[all_num_nodes, 1024]的矩阵。经过一系列修改版的克罗内克积的操作后仍然保持了[all_num_nodes, 1024]，最后通过一个全连接层转换为[all_num_nodes, hidden_size]的矩阵输出。
+SDMGR使用的克罗内克积基于计算复杂度的考虑进行了修改。输入x与nodes会分别通过一个全连接层统一变成shape为[all\_num\_nodes, 1024]的矩阵。经过一系列修改版的克罗内克积的操作后仍然保持了[all\_num\_nodes, 1024]，最后通过一个全连接层转换为[all\_num\_nodes, hidden\_size]的矩阵输出。
 
 克罗内克积在物理中经常使用，但在机器学习领域不常出现。SDMGR的改版克罗内克积详细过程这里不在赘述。
 
 # 4. 图神经网络GNN
 
-SDMGR的一大亮点就是使用图神经网络来处理节点与空间信息。在上面的特征融合后我们得到了构成图神经网络中节点的一部分，接下来就要开始基于空间信息构造边了。
+SDMGR的一大亮点就是使用图神经网络来处理节点与空间信息。图神经网络作为近年来新出现的神经网络类型，尚处在发展阶段，在工业界的应用也远不如卷积，循环和最近大热的Transformer架构这般广泛。对图神经网络感兴趣的话可以看看Distill的这篇互动式博客[A Gentle Introduction to Graph Neural Networks](https://distill.pub/2021/gnn-intro/)非常直观地解释了什么是图神经网络。李沐也基于这篇博客进行了讲解[零基础多图详解图神经网络（GNN/GCN）](https://www.bilibili.com/video/BV1iT4y1d7zP)。接下来我们一起来看看SDMGR是怎么构造图神经网络的：
+
+在上面的特征融合后我们得到了构成图神经网络中节点的一部分，接下来就要开始基于空间信息构造边了。
 
 ```python
 # relations的shape为[batch_size, num_nodes, num_nodes, 5], 记录了每条数据中边缘框与边缘框之间的关系
@@ -167,15 +169,15 @@ embed_edges = self.edge_embed(all_edges.astype('float32'))
 embed_edges = F.normalize(embed_edges)
 ```
 
-经过一个全连接和L2范数归一化后，我们获得了空间信息特征，形状为[num_nodes\*num_nodes\*n, 256]，就可以进行图神经网络迭代了
+经过一个全连接和L2范数归一化后，我们获得了空间信息特征，形状为[num\_nodes\*num\_nodes\*n, 256]，就可以进行图神经网络迭代了
 ```python
 for gnn_layer in self.gnn_layers:
     nodes, cat_nodes = gnn_layer(nodes, embed_edges, node_nums)
 ```
 重新回顾一下各个参数：
-- nodes：文字与图片信息的融合，shape=[all_num_nodes, hidden_size]
-- embed_edges：空间信息，shape=[num_nodes\*num_nodes\*n, 256]
-- node_nums：batch中每条数据的节点数，shape=\[batch_size]
+- nodes：文字与图片信息的融合，shape=[all\_num\_nodes, hidden\_size]
+- embed\_edges：空间信息，shape=[num\_nodes\*num\_nodes\*n, 256]
+- node\_nums：batch中每条数据的节点数，shape=\[batch\_size]
 
 默认该迭代会重复两次，不断更新输出`nodes`与`cat_nodes`，其中`nodes`会作为新的节点特征进入下一次迭代
 
@@ -191,6 +193,7 @@ def forward(self, nodes, edges, nums):
         # sample_nodes.unsqueeze(0) shape = [1, num_nodes, hidden_size]
         # 经过expand后这两个变量的shape都变为了[num_nodes, num_nodes, hidden_size]
         # 虽然形状一样但是内容有所区别，一个是在第0维度上从1复制为num_nodes，另一个是在第1维度上复制。
+        # 这两种不同的复制方式其实分别代表了节点i对应其他节点的关系，以及其他节点对用节点i的关系
         # reshape后最终的cat_nodes的shepe为[batch_size, num_nodes*num_nodes, hidden_size*2]
         cat_nodes.append(
             paddle.concat([
@@ -201,7 +204,7 @@ def forward(self, nodes, edges, nums):
     # paddle.concat(cat_nodes)后shape为[num_nodes*num_nodes*n, hidden_size*2]，hidden_size默认为256
     # cat_nodes concat了edges后，最终的shape为[num_nodes*num_nodes*n, 768]
     cat_nodes = paddle.concat([paddle.concat(cat_nodes), edges], -1)
-    # in_fc是一个全连接，将feature维度产品卖给node_dim * 2 + edge_dim=768降低到node_dim=256
+    # in_fc是一个全连接，将feature维度从node_dim * 2 + edge_dim=768降低到node_dim=256
     # 此时cat_nodes shape=[num_nodes*num_nodes*n, 256]
     # cat_nodes代表了节点的特征与两节点间的空间关系
     cat_nodes = self.relu(self.in_fc(cat_nodes))
@@ -212,7 +215,7 @@ def forward(self, nodes, edges, nums):
 
     start, residuals = 0, []
     for num in nums:
-        # 将coefs还原成[num_nodes, num_nodes, 1]的矩阵，然后每一行做softmax归一化
+        # 将coefs变换成[num_nodes, num_nodes, 1]的张量，然后每一行做softmax归一化
         # 这里为了让每个节点自己与自己的关系降为0，不影响归一化的结果，在softmax之前在对角线上的元素减去了1e9。
         # residual即学习的两个节点间边的权重
         # residual的shape为[num_nodes, num_nodes, 1]
@@ -233,7 +236,9 @@ def forward(self, nodes, edges, nums):
     nodes += self.relu(self.out_fc(paddle.concat(residuals)))
     return [nodes, cat_nodes]
 ```
-整个图神经网络先将代表节点特征的`nodes`与边特征的`edges`按照每条数据拼接，形成了特征`cat_nodes`，该特征同时包含节点(图片+文字)与空间(边缘框)的特征。随后经过一个输出维度为1的全连接层并归一化，得到了残差系数矩阵(实际是[num_nodes, num_nodes, 1]的张量)`residual`，使用这个系数对某个node`i`计算与其他所有node之间特征的加权和，获得的残差值与输入的节点特征加和并作为新的节点特征输出。整个图神经网络迭代的过程就是不断地叠加这个残差值，使得最终对node的分类逼近真实值。
+整个图神经网络先将代表节点特征的`nodes`与边特征的`edges`按照每条数据拼接，形成了特征`cat_nodes`，该特征同时包含节点(图片+文字)与空间(边缘框)的特征。随后经过一个输出维度为1的全连接层并归一化，得到了残差系数矩阵(实际是[num\_nodes, num\_nodes, 1]的张量)`residual`，使用这个系数对某个node`i`计算与其他所有node之间特征的加权和，获得的残差值与输入的节点特征加和并作为新的节点特征输出。整个图神经网络迭代的过程就是不断地叠加这个残差值，使得最终对node的分类逼近真实值。
+
+其实把图神经网络换成普通的全连接层的话，这里就相当于是两个残差连接块。SDMGR在残差连接的基础上，使用了图神经网络块的方式融合节点与空间信息来构造残差。
 
 获得节点特征`nodes`和空间特征`cat_nodes`后，就可以对节点以及边分类了。经过全连接层，把`nodes`的维度从256调整到与分类数一致，cat_nodes的维度从256调整到2
 ```python
@@ -248,3 +253,5 @@ return node_cls, edge_cls
 ### 参考链接
 1. https://en.wikipedia.org/wiki/Long_short-term_memory
 2. https://zh.m.wikipedia.org/zh/%E5%85%8B%E7%BD%97%E5%86%85%E5%85%8B%E7%A7%AF
+3. https://distill.pub/2021/gnn-intro/
+4. https://www.bilibili.com/video/BV1iT4y1d7zP

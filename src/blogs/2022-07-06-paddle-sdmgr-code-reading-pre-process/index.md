@@ -326,7 +326,7 @@ def bbox2roi(self, bbox_list):
 
 ```python
 feats = paddle.vision.ops.roi_align(
-            x, boxes, spatial_scale=1.0, output_size=7, boxes_num=rois_num)
+    x, boxes, spatial_scale=1.0, output_size=7, boxes_num=rois_num)
 ```
 
 ROI池化完成后，便完成了每个边界框与图片抽出的特征图中对应区域的映射，如论文中下图所示，完成了文字，边界框与图片信息的特征“三位一体”。只不过此时图片并不是原始的RGB三通道图片，而是抽取特征后的16通道特征图了。
@@ -337,6 +337,8 @@ ROI池化完成后，便完成了每个边界框与图片抽出的特征图中�
 # 5.总结
 
 今天这篇文章从从代码角度介绍了整个SDMGR网络的数据处理和图片特征抽取部分。下一篇文章会继续介绍文字特征抽取，特征融合与图神经网络模块。
+
+[关键信息提取网络SDMGR代码详解(3): 循环神经网络与图神经网络](/paddle-ocr-kie-sdmgr-code-embedding-lstm-and-gnn)
 
 ### 参考链接
 1. https://arxiv.org/abs/2103.14470v1

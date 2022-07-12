@@ -222,6 +222,8 @@ python tools/train.py -c configs/kie/kie_unet_sdmgr.yml -o Global.save_model_dir
 
 [关键信息提取网络SDMGR代码详解(2): 数据处理与主干网络](/paddle-ocr-kie-sdmgr-code-data-process-and-backbone)
 
+[关键信息提取网络SDMGR代码详解(3): 循环神经网络与图神经网络](/paddle-ocr-kie-sdmgr-code-embedding-lstm-and-gnn)
+
 ### 参考链接
 1. https://arxiv.org/abs/2103.14470v1
 2. https://github.com/open-mmlab/mmocr
