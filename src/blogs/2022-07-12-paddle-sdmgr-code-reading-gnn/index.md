@@ -240,6 +240,8 @@ def forward(self, nodes, edges, nums):
 
 其实把图神经网络换成普通的全连接层的话，这里就相当于是两个残差连接块。SDMGR在残差连接的基础上，使用了图神经网络块的方式融合节点与空间信息来构造残差。
 
+有趣的是论文原文中提到了SDMGR在处理图神经网络时候使用了动态注意力机制(dynamic attention mechanism)，也许这里的注意力机制指的就是在计算残差时对其他节点的特征进行了一个加权和，而这个权重是通过一个全连接层学习得到的。
+
 获得节点特征`nodes`和空间特征`cat_nodes`后，就可以对节点以及边分类了。经过全连接层，把`nodes`的维度从256调整到与分类数一致，cat_nodes的维度从256调整到2
 ```python
 node_cls, edge_cls = self.node_cls(nodes), self.edge_cls(cat_nodes)
@@ -248,7 +250,9 @@ return node_cls, edge_cls
 
 # 5.总结
 
-今天这篇文章从从代码角度介绍了整个SDMGR网络的词嵌入，循环神经网络，特征融合以及图神经网络部分。下一篇文章会继续介绍损失函数与评估函数。
+今天这篇文章从从代码角度介绍了整个SDMGR网络的词嵌入，循环神经网络，特征融合以及图神经网络部分。至此我们已经完整介绍了整个网络的结构，可以看到SDMGR将`U-Net`和`LSTM`作为Encoder抽取特征，图神经网络作为残差连接块，最后使用全连接层使用Decoder输出分类的思路是非常清晰的，在图神经网络模块还使用了动态注意力机制来学习文字区域之间的空间信息。
+
+下一篇文章会继续介绍损失函数与评估函数。
 
 ### 参考链接
 1. https://en.wikipedia.org/wiki/Long_short-term_memory
