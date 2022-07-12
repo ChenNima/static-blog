@@ -5,7 +5,7 @@ title: "关键信息提取网络SDMGR代码详解(1): 概览与应用"
 type: "blog"
 ---
 
-在[上篇文章](/cuda-gpu-setup-for-paddle-on-windows-wsl)中我们简单介绍了如何在Windows的WSL2环境中搭建PaddlePaddle的GPU训练/推理环境，那么这次就来结合代码一起来看看PaddleOCR中KIE模块: SDMGR网络的代码与如何推理/训练吧。
+在上篇文章[Windows环境下利用WSL搭建GPU训练/推理PaddlePaddle神经网络环境](/cuda-gpu-setup-for-paddle-on-windows-wsl)中我们简单介绍了如何在Windows的WSL2环境中搭建PaddlePaddle的GPU训练/推理环境，那么这次就来结合代码一起来看看PaddleOCR中KIE模块: SDMGR网络的代码与如何推理/训练吧。
 
 # 1. 什么是KIE任务与SDMGR网络
 KIE(Key Infomation Extraction)即关键信息提取是计算机视觉任务中的一种，目的是在给定的图片以及其他信息中提取关键信息。例如这次要介绍的SDMGR网络，在给定图片以及图片中文字的位置和内容后，可以给文字信息分类。比如在[WildReceipt](https://paperswithcode.com/dataset/wildreceipt)这个英文小票的数据集上训练好的SDMGR模型，可以在给定图片和文字后提取出如下信息：

@@ -5,7 +5,7 @@ title: "关键信息提取网络SDMGR代码详解(2): 数据处理与主干网�
 type: "blog"
 ---
 
-在[上篇文章](/paddle-ocr-kie-sdmgr-code-overview-and-application)中我们简单介绍了[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)中用于关键信息提取(KIE)任务网络[SDMGR](https://arxiv.org/abs/2103.14470v1)(Spatial Dual-Modality Graph Reasoning for Key Information Extraction)并且手动尝试使用预训练模型对[WildReceipt](https://paperswithcode.com/dataset/wildreceipt)数据集进行了推理。那这篇文章我们就从头开始对`SDMGR`网络的代码实现逐步解读一下吧。
+在上篇文章[关键信息提取网络SDMGR代码详解(1): 概览与应用](/paddle-ocr-kie-sdmgr-code-overview-and-application)中我们简单介绍了[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)中用于关键信息提取(KIE)任务网络[SDMGR](https://arxiv.org/abs/2103.14470v1)(Spatial Dual-Modality Graph Reasoning for Key Information Extraction)并且手动尝试使用预训练模型对[WildReceipt](https://paperswithcode.com/dataset/wildreceipt)数据集进行了推理。那这篇文章我们就从头开始对`SDMGR`网络的代码实现逐步解读一下吧。
 
 # 1. 数据处理
 回顾一下上篇文章中对`SDMGR`网络的训练/推理数据结构：每一行代表一条数据，格式为`图片位置\t标号`。图片位置信息比较好理解，图片标号则是一个JSON Array, Array中每一项代表一条文字信息以及其位置信息。将这个JSON格式化后如下:
@@ -165,7 +165,7 @@ def list_to_numpy(self, ann_infos):
         labels=temp_labels,
         tag=tag)
 ```
-经过上面的代码，每一条数据的标号数量都被限制在300个并处理成了相同的形状。最终得到了一下几个处理完的数据：
+经过上面的代码，每一条数据的标号数量都被限制在300个并处理成了相同的形状。最终对于批量中的每一条数据，处理并转换成了以下的形式：
 - image： 此步未被处理
 - points： 形状为[300, 4]，第二个维度是每个边界框左上点的X,Y值和右下点的X,Y值
 - relations：形状为[300, 300, 5]，前两个维度代表了每一条标号的边界框之间两两关系，最后一个维度5代表每个关系的特征数。关系特征是如何得到的将在下文解释
