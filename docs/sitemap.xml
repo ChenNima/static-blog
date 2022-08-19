@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url> <loc>https://chennima.github.io/resume-en</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/resume</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/paddle-ocr-kie-sdmgr-code-embedding-lstm-and-gnn</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/paddle-ocr-kie-sdmgr-code-data-process-and-backbone</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/paddle-ocr-kie-sdmgr-code-overview-and-application</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/cuda-gpu-setup-for-paddle-on-windows-wsl</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/lima-alternative-docker-desktop-for-mac</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/keto-permission-manager-introduction</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/aws-vpc-elb-and-nat-gateway</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/aws-vpc-internet-gateway</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/blackout-docker-container-with-iptables</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/with-async-data</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/blog</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/blog/2</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chennima.github.io/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+</urlset>

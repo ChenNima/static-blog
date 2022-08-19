@@ -1,4 +1,6 @@
 const path = require("path")
+const fs = require("fs")
+
 exports.createPages = async arg => {
   const blogTemplate = path.resolve(`src/templates/blog-post.tsx`);
   const resumeTemplate = path.resolve(`src/templates/resume.tsx`);
@@ -54,4 +56,22 @@ const createBlogList = ({ actions }, posts) => {
       },
     })
   })
+}
+
+exports.onPreInit = () => {
+  if (process.argv[2] === "build") {
+    fs.rmdirSync(path.join(__dirname, "docs"), { recursive: true })
+    fs.renameSync(
+      path.join(__dirname, "public"),
+      path.join(__dirname, "public_dev")
+    )
+  }
+}
+
+exports.onPostBuild = () => {
+  fs.renameSync(path.join(__dirname, "public"), path.join(__dirname, "docs"))
+  fs.renameSync(
+    path.join(__dirname, "public_dev"),
+    path.join(__dirname, "public")
+  )
 }
